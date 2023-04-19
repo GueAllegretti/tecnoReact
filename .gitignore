@@ -1,0 +1,6 @@
+
+backend/api/api/__pycache__
+backend/env
+.vscode/launch.json
+backend/api/media
+frontend/node_modules
