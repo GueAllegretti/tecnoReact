@@ -37,7 +37,7 @@ class Brand(models.Model):
         return self.title
     
 
-class Accassori(models.Model):
+class Accessori(models.Model):
     title = models.CharField(max_length=255)
     brand =  models.ForeignKey('Brand', on_delete=models.CASCADE)
     description = models.TextField(max_length=255)

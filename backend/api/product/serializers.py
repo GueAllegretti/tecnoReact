@@ -23,5 +23,5 @@ class BrandSerializer(serializers.HyperlinkedModelSerializer):
 class AccessoriSerializer(serializers.HyperlinkedModelSerializer):
    
     class Meta:
-        model = Accassori
+        model = Accessori
         fields = '__all__'

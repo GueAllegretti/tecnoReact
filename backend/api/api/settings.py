@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -111,9 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'it'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Rome'
 
 USE_I18N = True
 
@@ -130,8 +131,67 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Base url to serve media files  
-MEDIA_URL = '/media/'  
-  
-# Path where media is stored  
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
+# Path where media is stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Tecnopoint Admin",
+    "site_header": "Tecnopoint",
+    "site_brand": "Tecnopoint",
+    "welcome_sign": "Benvenuto nel pannello di gestione",
+    "copyright": "Tecnopoint",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "icons": {
+        "product.Phone": "fas fa-mobile-alt",
+        "product.Tablet": "fas fa-tablet-alt",
+        "product.Brand": "fas fa-tag",
+        "product.Accessori": "fas fa-headphones",
+        "auth.User": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    "order_with_respect_to": ["product"],
+    "default_icon_parents": "fas fa-box",
+    "default_icon_children": "fas fa-circle",
+    "related_modal_active": True,
+    "show_ui_builder": False,
+    "show_theme_chooser": True,
+    "topmenu_links": [
+        {"name": "Sito", "url": "http://localhost:3000", "new_window": True},
+    ],
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-indigo",
+    "accent": "accent-indigo",
+    "navbar": "navbar-white navbar-light",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-light-indigo",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "flatly",
+    "dark_mode_theme": "darkly",
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success",
+    },
+}

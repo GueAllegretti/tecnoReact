@@ -16,5 +16,5 @@ class BrandViewSet(viewsets.ModelViewSet):
     serializer_class = BrandSerializer
     
 class AccessoriViewSet(viewsets.ModelViewSet):
-    queryset = Accassori.objects.all().order_by('title')
+    queryset = Accessori.objects.all().order_by('title')
     serializer_class = AccessoriSerializer
