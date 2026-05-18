@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Products = (props) => {
   return (
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -14,10 +16,10 @@ const Products = (props) => {
               <div className="mt-4 flex justify-between">
                 <div>
                   <h3 className="text-sm text-gray-700">
-                    <a href='#'>
+                    <Link to='#'>
                       <span aria-hidden="true" className="absolute inset-0" />
                       {product.title}
-                    </a>
+                    </Link>
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                 </div>

@@ -1,30 +1,14 @@
 import { Link } from "react-router-dom";
 
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
-*/
 const ProductsImages = () => {
   return (
     <div className="bg-gray-50">
       <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-baseline sm:justify-between">
           <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Shop by Category</h2>
-          <a href="#" className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
+          <Link to="" className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
             Browse all categories<span aria-hidden="true"> &rarr;</span>
-          </a>
+          </Link>
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
@@ -38,10 +22,10 @@ const ProductsImages = () => {
             <div className="p-6 flex items-end">
               <div>
                 <h3 className="font-semibold text-white">
-                  <a href="#">
+                  <Link to="">
                     <span className="absolute inset-0" />
                     New Arrivals
-                  </a>
+                  </Link>
                 </h3>
                 <p aria-hidden="true" className="mt-1 text-sm text-white">
                   Shop now
@@ -62,10 +46,10 @@ const ProductsImages = () => {
             <div className="p-6 flex items-end sm:absolute sm:inset-0">
               <div>
                 <h3 className="font-semibold text-white">
-                  <a href="#">
+                  <Link to="">
                     <span className="absolute inset-0" />
                     Accessories
-                  </a>
+                  </Link>
                 </h3>
                 <p aria-hidden="true" className="mt-1 text-sm text-white">
                   Shop now
@@ -86,10 +70,10 @@ const ProductsImages = () => {
             <div className="p-6 flex items-end sm:absolute sm:inset-0">
               <div>
                 <h3 className="font-semibold text-white">
-                  <a href="#">
+                  <Link to="">
                     <span className="absolute inset-0" />
                     Workspace
-                  </a>
+                  </Link>
                 </h3>
                 <p aria-hidden="true" className="mt-1 text-sm text-white">
                   Shop now
@@ -100,9 +84,9 @@ const ProductsImages = () => {
         </div>
 
         <div className="mt-6 sm:hidden">
-          <a href="#" className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+          <Link to="" className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
             Browse all categories<span aria-hidden="true"> &rarr;</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

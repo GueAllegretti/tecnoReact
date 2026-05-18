@@ -4,25 +4,25 @@ import { Link } from "react-router-dom";
 const categories = [
   {
     name: 'New Arrivals',
-    href: '#',
+    href: '',
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-01.jpg',
   },
   {
     name: 'Productivity',
-    href: '#',
+    href: '',
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-02.jpg',
   },
   {
     name: 'Workspace',
-    href: '#',
+    href: '',
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-04.jpg',
   },
   {
     name: 'Accessories',
-    href: '#',
+    href: '',
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-05.jpg',
   },
-  { name: 'Sale', href: '#', imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-03.jpg' },
+  { name: 'Sale', href: '', imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-03.jpg' },
 ]
 
 const Category = () => {
@@ -31,7 +31,7 @@ const Category = () => {
       <div className="py-16 sm:py-24 xl:max-w-7xl xl:mx-auto xl:px-8">
         <div className="px-4 sm:px-6 sm:flex sm:items-center sm:justify-between lg:px-8 xl:px-0">
           <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Shop by Category</h2>
-          <Link to="#" className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
+          <Link to="" className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
             Browse all categories<span aria-hidden="true"> &rarr;</span>
           </Link>
         </div>
@@ -62,7 +62,7 @@ const Category = () => {
         </div>
 
         <div className="mt-6 px-4 sm:hidden">
-          <Link to="#" className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+          <Link to="" className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
             Browse all categories<span aria-hidden="true"> &rarr;</span>
           </Link>
         </div>

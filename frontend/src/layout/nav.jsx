@@ -1,393 +1,138 @@
 import { Fragment, useState } from 'react'
-import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import { MenuIcon, QuestionMarkCircleIcon, SearchIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline'
+import { Popover, Transition } from '@headlessui/react'
+import { MenuIcon, XIcon, ChevronDownIcon } from '@heroicons/react/outline'
+import { Link } from 'react-router-dom'
 
-const navigation = {
-  categories: [
-    {
-      name: 'Women',
-      featured: [
-        {
-          name: 'New Arrivals',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-          imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
-        },
-        {
-          name: 'Basic Tees',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
-          imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
-        },
-        {
-          name: 'Accessories',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-03.jpg',
-          imageAlt: 'Model wearing minimalist watch with black wristband and white watch face.',
-        },
-        {
-          name: 'Carry',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-04.jpg',
-          imageAlt: 'Model opening tan leather long wallet with credit card pockets and cash pouch.',
-        },
-      ],
-    },
-    {
-      name: 'Men',
-      featured: [
-        {
-          name: 'New Arrivals',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-01.jpg',
-          imageAlt: 'Hats and sweaters on wood shelves next to various colors of t-shirts on hangers.',
-        },
-        {
-          name: 'Basic Tees',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-02.jpg',
-          imageAlt: 'Model wearing light heather gray t-shirt.',
-        },
-        {
-          name: 'Accessories',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-03.jpg',
-          imageAlt:
-            'Grey 6-panel baseball hat with black brim, black mountain graphic on front, and light heather gray body.',
-        },
-        {
-          name: 'Carry',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-04.jpg',
-          imageAlt: 'Model putting folded cash into slim card holder olive leather wallet with hand stitching.',
-        },
-      ],
-    },
-  ],
-  pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
-  ],
-}
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
+const prodotti = [
+  { name: 'Telefoni', href: '/prodotti/telefoni', description: 'Smartphone di tutte le fasce' },
+  { name: 'Tablet', href: '/prodotti/tablet', description: 'Tablet per lavoro e intrattenimento' },
+  { name: 'Accessori', href: '/prodotti/accessori', description: 'Cover, cuffie, caricabatterie e altro' },
+]
 
 const Nav = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+
   return (
-    <>
-            {/* Mobile menu */}
-     <Transition.Root show={mobileMenuOpen} as={Fragment}>
-     <Dialog as="div" className="fixed inset-0 flex z-40 lg:hidden" onClose={setMobileMenuOpen}>
-       <Transition.Child
-         as={Fragment}
-         enter="transition-opacity ease-linear duration-300"
-         enterFrom="opacity-0"
-         enterTo="opacity-100"
-         leave="transition-opacity ease-linear duration-300"
-         leaveFrom="opacity-100"
-         leaveTo="opacity-0"
-       >
-         <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-25" />
-       </Transition.Child>
+    <header className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
 
-       <Transition.Child
-         as={Fragment}
-         enter="transition ease-in-out duration-300 transform"
-         enterFrom="-translate-x-full"
-         enterTo="translate-x-0"
-         leave="transition ease-in-out duration-300 transform"
-         leaveFrom="translate-x-0"
-         leaveTo="-translate-x-full"
-       >
-         <div className="relative max-w-xs w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto">
-           <div className="px-4 pt-5 pb-2 flex">
-             <button
-               type="button"
-               className="-m-2 p-2 rounded-md inline-flex items-center justify-center text-gray-400"
-               onClick={() => setMobileMenuOpen(false)}
-             >
-               <span className="sr-only">Close menu</span>
-               <XIcon className="h-6 w-6" aria-hidden="true" />
-             </button>
-           </div>
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <span className="text-xl font-bold text-gray-900 tracking-tight">Tecnopoint</span>
+          </Link>
 
-           {/* Links */}
-           <Tab.Group as="div" className="mt-2">
-             <div className="border-b border-gray-200">
-               <Tab.List className="-mb-px flex px-4 space-x-8">
-                 {navigation.categories.map((category) => (
-                   <Tab
-                     key={category.name}
-                     className={({ selected }) =>
-                       classNames(
-                         selected ? 'text-indigo-600 border-indigo-600' : 'text-gray-900 border-transparent',
-                         'flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium'
-                       )
-                     }
-                   >
-                     {category.name}
-                   </Tab>
-                 ))}
-               </Tab.List>
-             </div>
-             <Tab.Panels as={Fragment}>
-               {navigation.categories.map((category) => (
-                 <Tab.Panel key={category.name} className="px-4 py-6 space-y-12">
-                   <div className="grid grid-cols-2 gap-x-4 gap-y-10">
-                     {category.featured.map((item) => (
-                       <div key={item.name} className="group relative">
-                         <div className="aspect-w-1 aspect-h-1 rounded-md bg-gray-100 overflow-hidden group-hover:opacity-75">
-                           <img src={item.imageSrc} alt={item.imageAlt} className="object-center object-cover" />
-                         </div>
-                         <a href={item.href} className="mt-6 block text-sm font-medium text-gray-900">
-                           <span className="absolute z-10 inset-0" aria-hidden="true" />
-                           {item.name}
-                         </a>
-                         <p aria-hidden="true" className="mt-1 text-sm text-gray-500">
-                           Shop now
-                         </p>
-                       </div>
-                     ))}
-                   </div>
-                 </Tab.Panel>
-               ))}
-             </Tab.Panels>
-           </Tab.Group>
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center space-x-8">
 
-           <div className="border-t border-gray-200 py-6 px-4 space-y-6">
-             {navigation.pages.map((page) => (
-               <div key={page.name} className="flow-root">
-                 <a href={page.href} className="-m-2 p-2 block font-medium text-gray-900">
-                   {page.name}
-                 </a>
-               </div>
-             ))}
-           </div>
+            {/* Prodotti dropdown */}
+            <Popover className="relative">
+              {({ open }) => (
+                <>
+                  <Popover.Button className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none">
+                    Prodotti
+                    <ChevronDownIcon
+                      className={`h-4 w-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+                    />
+                  </Popover.Button>
 
-           <div className="border-t border-gray-200 py-6 px-4 space-y-6">
-             <div className="flow-root">
-               <a href="#" className="-m-2 p-2 block font-medium text-gray-900">
-                 Chiama
-               </a>
-             </div>
-             <div className="flow-root">
-               <a href="#" className="-m-2 p-2 block font-medium text-gray-900">
-                 Scrivi
-               </a>
-             </div>
-             <div className="flow-root">
-               <a href="#" className="-m-2 p-2 block font-medium text-gray-900">
-                 Dove
-               </a>
-             </div>
-           </div>
-         </div>
-       </Transition.Child>
-     </Dialog>
-   </Transition.Root>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-150"
+                    enterFrom="opacity-0 translate-y-1"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 translate-y-1"
+                  >
+                    <Popover.Panel className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white rounded-xl shadow-lg ring-1 ring-black/5 p-2">
+                      {prodotti.map((item) => (
+                        <Link
+                          key={item.name}
+                          to={item.href}
+                          className="flex flex-col px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                        >
+                          <span className="text-sm font-medium text-gray-900">{item.name}</span>
+                          <span className="text-xs text-gray-500 mt-0.5">{item.description}</span>
+                        </Link>
+                      ))}
+                    </Popover.Panel>
+                  </Transition>
+                </>
+              )}
+            </Popover>
 
-   {/* Hero section */}
-   <div className="relative bg-gray-900">
-     {/* Decorative image and overlay */}
-     <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
-       <img
-         src="https://tailwindui.com/img/ecommerce-images/home-page-01-hero-full-width.jpg"
-         alt=""
-         className="w-full h-full object-center object-cover"
-       />
-     </div>
-     <div aria-hidden="true" className="absolute inset-0 bg-gray-900 opacity-50" />
+            <Link to="#" className="text-sm font-medium text-gray-700 hover:text-gray-900">
+              Chi siamo
+            </Link>
+            <Link to="#" className="text-sm font-medium text-gray-700 hover:text-gray-900">
+              Contatti
+            </Link>
+          </nav>
 
-     {/* Navigation */}
-     <header className="relative z-10">
-       <nav aria-label="Top">
-         {/* Top navigation */}
-         <div className="bg-gray-900">
-           <div className="max-w-7xl mx-auto h-10 px-4 flex items-center justify-between sm:px-6 lg:px-8">
-             <div className="flex items-center space-x-6">
-               <a href="#" className="text-sm font-medium text-white hover:text-gray-100">
-                 Chiama
-               </a>
-               <a href="#" className="text-sm font-medium text-white hover:text-gray-100">
-                 Scrivi
-               </a>
-               <a href="#" className="text-sm font-medium text-white hover:text-gray-100">
-                 Dove
-               </a>
-             </div>
-           </div>
-         </div>
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            className="lg:hidden p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+            onClick={() => setMobileOpen(true)}
+          >
+            <span className="sr-only">Apri menu</span>
+            <MenuIcon className="h-6 w-6" />
+          </button>
+        </div>
+      </div>
 
-         {/* Secondary navigation */}
-         <div className="backdrop-blur-md backdrop-filter bg-opacity-10 bg-white">
-           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-             <div>
-               <div className="h-16 flex items-center justify-between">
-                 {/* Logo (lg+) */}
-                 <div className="hidden lg:flex-1 lg:flex lg:items-center">
-                   <a href="#">
-                     <span className="sr-only">Workflow</span>
-                     <img
-                       className="h-8 w-auto"
-                       src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white"
-                       alt=""
-                     />
-                   </a>
-                 </div>
+      {/* Mobile menu overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div className="fixed inset-0 bg-black/30" onClick={() => setMobileOpen(false)} />
+          <div className="fixed top-0 right-0 h-full w-72 bg-white shadow-xl flex flex-col">
+            <div className="flex items-center justify-between px-4 h-16 border-b border-gray-100">
+              <span className="text-lg font-bold text-gray-900">Tecnopoint</span>
+              <button
+                type="button"
+                className="p-2 rounded-md text-gray-500 hover:bg-gray-100"
+                onClick={() => setMobileOpen(false)}
+              >
+                <XIcon className="h-6 w-6" />
+              </button>
+            </div>
 
-                 <div className="hidden h-full lg:flex">
-                   {/* Flyout menus */}
-                   <Popover.Group className="px-4 bottom-0 inset-x-0">
-                     <div className="h-full flex justify-center space-x-8">
-                       {navigation.categories.map((category) => (
-                         <Popover key={category.name} className="flex">
-                           {({ open }) => (
-                             <>
-                               <div className="relative flex">
-                                 <Popover.Button className="relative z-10 flex items-center justify-center transition-colors ease-out duration-200 text-sm font-medium text-white">
-                                   {category.name}
-                                   <span
-                                     className={classNames(
-                                       open ? 'bg-white' : '',
-                                       'absolute -bottom-px inset-x-0 h-0.5 transition ease-out duration-200'
-                                     )}
-                                     aria-hidden="true"
-                                   />
-                                 </Popover.Button>
-                               </div>
+            <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Prodotti</p>
+              {prodotti.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
 
-                               <Transition
-                                 as={Fragment}
-                                 enter="transition ease-out duration-200"
-                                 enterFrom="opacity-0"
-                                 enterTo="opacity-100"
-                                 leave="transition ease-in duration-150"
-                                 leaveFrom="opacity-100"
-                                 leaveTo="opacity-0"
-                               >
-                                 <Popover.Panel className="absolute top-full inset-x-0 text-sm text-gray-500">
-                                   {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
-                                   <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
-
-                                   <div className="relative bg-white">
-                                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                                       <div className="grid grid-cols-4 gap-y-10 gap-x-8 py-16">
-                                         {category.featured.map((item) => (
-                                           <div key={item.name} className="group relative">
-                                             <div className="aspect-w-1 aspect-h-1 rounded-md bg-gray-100 overflow-hidden group-hover:opacity-75">
-                                               <img
-                                                 src={item.imageSrc}
-                                                 alt={item.imageAlt}
-                                                 className="object-center object-cover"
-                                               />
-                                             </div>
-                                             <a href={item.href} className="mt-4 block font-medium text-gray-900">
-                                               <span className="absolute z-10 inset-0" aria-hidden="true" />
-                                               {item.name}
-                                             </a>
-                                             <p aria-hidden="true" className="mt-1">
-                                               Shop now
-                                             </p>
-                                           </div>
-                                         ))}
-                                       </div>
-                                     </div>
-                                   </div>
-                                 </Popover.Panel>
-                               </Transition>
-                             </>
-                           )}
-                         </Popover>
-                       ))}
-
-                       {navigation.pages.map((page) => (
-                         <a
-                           key={page.name}
-                           href={page.href}
-                           className="flex items-center text-sm font-medium text-white"
-                         >
-                           {page.name}
-                         </a>
-                       ))}
-                     </div>
-                   </Popover.Group>
-                 </div>
-
-                 {/* Mobile menu and search (lg-) */}
-                 <div className="flex-1 flex items-center lg:hidden">
-                   <button type="button" className="-ml-2 p-2 text-white" onClick={() => setMobileMenuOpen(true)}>
-                     <span className="sr-only">Open menu</span>
-                     <MenuIcon className="h-6 w-6" aria-hidden="true" />
-                   </button>
-
-                   {/* Search */}
-                   <a href="#" className="ml-2 p-2 text-white">
-                     <span className="sr-only">Search</span>
-                     <SearchIcon className="w-6 h-6" aria-hidden="true" />
-                   </a>
-                 </div>
-
-                 {/* Logo (lg-) */}
-                 <a href="#" className="lg:hidden">
-                   <span className="sr-only">Workflow</span>
-                   <img
-                     src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white"
-                     alt=""
-                     className="h-8 w-auto"
-                   />
-                 </a>
-
-                 <div className="flex-1 flex items-center justify-end">
-                   <a href="#" className="hidden text-sm font-medium text-white lg:block">
-                     Search
-                   </a>
-
-                   <div className="flex items-center lg:ml-8">
-                     {/* Help */}
-                     <a href="#" className="p-2 text-white lg:hidden">
-                       <span className="sr-only">Help</span>
-                       <QuestionMarkCircleIcon className="w-6 h-6" aria-hidden="true" />
-                     </a>
-                     <a href="#" className="hidden text-sm font-medium text-white lg:block">
-                       Help
-                     </a>
-
-                     {/* Cart */}
-                     <div className="ml-4 flow-root lg:ml-8">
-                       <a href="#" className="group -m-2 p-2 flex items-center">
-                         <ShoppingBagIcon className="flex-shrink-0 h-6 w-6 text-white" aria-hidden="true" />
-                         <span className="ml-2 text-sm font-medium text-white">0</span>
-                         <span className="sr-only">items in cart, view bag</span>
-                       </a>
-                     </div>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div>
-       </nav>
-     </header>
-
-     <div className="relative max-w-3xl mx-auto py-32 px-6 flex flex-col items-center text-center sm:py-64 lg:px-0">
-       <h1 className="text-4xl font-extrabold tracking-tight text-white lg:text-6xl">New arrivals are here</h1>
-       <p className="mt-4 text-xl text-white">
-         The new arrivals have, well, newly arrived. Check out the latest options from our summer small-batch release
-         while they're still in stock.
-       </p>
-       <a
-         href="#"
-         className="mt-8 inline-block bg-white border border-transparent rounded-md py-3 px-8 text-base font-medium text-gray-900 hover:bg-gray-100"
-       >
-         Shop New Arrivals
-       </a>
-     </div>
-   </div>
-   </>
+              <div className="border-t border-gray-100 mt-4 pt-4 space-y-1">
+                <Link
+                  to="#"
+                  className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Chi siamo
+                </Link>
+                <Link
+                  to="#"
+                  className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Contatti
+                </Link>
+              </div>
+            </nav>
+          </div>
+        </div>
+      )}
+    </header>
   )
 }
 
-export default Nav;
+export default Nav
