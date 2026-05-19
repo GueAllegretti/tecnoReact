@@ -3,6 +3,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import Brand from './components/brand';
 import Nav from './layout/nav';
 import ProductsPage from './pages/ProductsPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 import DoveSiamo from './pages/DoveSiamo';
 import CookieBanner from './components/CookieBanner';
 
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Brand />} />
             <Route path="/prodotti/:category" element={<ProductsPage />} />
+            <Route path="/prodotti/:category/:id" element={<ProductDetailPage />} />
             <Route path="/dove-siamo" element={<DoveSiamo />} />
           </Routes>
         </main>

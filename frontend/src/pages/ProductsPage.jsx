@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useProducts } from '../hooks/useProducts'
 import PremiumPhone from '../components/premium_phone'
+
+const getId = (url) => url?.split('/').filter(Boolean).pop()
 
 const toUrl = (img) => {
   if (!img) return null
@@ -9,13 +11,14 @@ const toUrl = (img) => {
   catch { return `http://localhost:8000/media/${img}` }
 }
 
-const ProductCard = ({ product, badgeClass }) => {
+const ProductCard = ({ product, badgeClass, category }) => {
   const images = [
     toUrl(product.img),
     ...(product.images || []).map(i => toUrl(i.img)),
   ].filter(Boolean)
 
   const [idx, setIdx] = useState(0)
+  const navigate = useNavigate()
   const prev = (e) => { e.stopPropagation(); setIdx(i => (i - 1 + images.length) % images.length) }
   const next = (e) => { e.stopPropagation(); setIdx(i => (i + 1) % images.length) }
 
@@ -67,7 +70,10 @@ const ProductCard = ({ product, badgeClass }) => {
         )}
         <div className="mt-3 flex items-center justify-between">
           <span className="text-lg font-black text-indigo-600 dark:text-indigo-400">€ {product.price}</span>
-          <button className="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors">
+          <button
+            onClick={() => navigate(`/prodotti/${category}/${getId(product.url)}`)}
+            className="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors"
+          >
             Dettagli
           </button>
         </div>
@@ -189,7 +195,7 @@ const ProductsPage = () => {
             {filtered.map((product) => {
               const conditionKey = product.condition?.toLowerCase()
               const badgeClass = conditionColors[conditionKey] || 'bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-700/50 dark:text-gray-400 dark:border-gray-600'
-              return <ProductCard key={product.url} product={product} badgeClass={badgeClass} />
+              return <ProductCard key={product.url} product={product} badgeClass={badgeClass} category={category} />
             })}
           </div>
         )}
