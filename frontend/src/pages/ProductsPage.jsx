@@ -3,6 +3,79 @@ import { useParams } from 'react-router-dom'
 import { useProducts } from '../hooks/useProducts'
 import PremiumPhone from '../components/premium_phone'
 
+const toUrl = (img) => {
+  if (!img) return null
+  try { return `http://localhost:8000${new URL(img).pathname}` }
+  catch { return `http://localhost:8000/media/${img}` }
+}
+
+const ProductCard = ({ product, badgeClass }) => {
+  const images = [
+    toUrl(product.img),
+    ...(product.images || []).map(i => toUrl(i.img)),
+  ].filter(Boolean)
+
+  const [idx, setIdx] = useState(0)
+  const prev = (e) => { e.stopPropagation(); setIdx(i => (i - 1 + images.length) % images.length) }
+  const next = (e) => { e.stopPropagation(); setIdx(i => (i + 1) % images.length) }
+
+  return (
+    <div className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden hover:-translate-y-1 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:shadow-lg dark:glow-indigo-hover transition-all duration-300 cursor-pointer">
+      <div className="relative h-52 bg-gray-100 dark:bg-gray-700 overflow-hidden">
+        <img
+          src={images[idx]}
+          alt={product.title}
+          className="w-full h-full object-cover object-center transition-all duration-500"
+          onError={(e) => { e.target.src = 'https://placehold.co/300x300/e5e7eb/6366f1?text=No+img' }}
+        />
+
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={prev}
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-900 hover:bg-gray-700 text-white flex items-center justify-center text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
+            >‹</button>
+            <button
+              onClick={next}
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-900 hover:bg-gray-700 text-white flex items-center justify-center text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
+            >›</button>
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+              {images.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => { e.stopPropagation(); setIdx(i) }}
+                  className={`w-1.5 h-1.5 rounded-full transition-all ${i === idx ? 'bg-white scale-125' : 'bg-white/50'}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {product.condition && (
+          <span className={`absolute top-3 left-3 text-xs font-semibold px-2 py-0.5 rounded-full border ${badgeClass}`}>
+            {product.condition}
+          </span>
+        )}
+      </div>
+
+      <div className="p-4">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 leading-snug transition-colors">
+          {product.title}
+        </h3>
+        {product.color && (
+          <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">{product.color}</p>
+        )}
+        <div className="mt-3 flex items-center justify-between">
+          <span className="text-lg font-black text-indigo-600 dark:text-indigo-400">€ {product.price}</span>
+          <button className="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors">
+            Dettagli
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const categoryMap = {
   telefoni: 'phone',
   tablet: 'tablet',
@@ -116,42 +189,7 @@ const ProductsPage = () => {
             {filtered.map((product) => {
               const conditionKey = product.condition?.toLowerCase()
               const badgeClass = conditionColors[conditionKey] || 'bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-700/50 dark:text-gray-400 dark:border-gray-600'
-
-              return (
-                <div
-                  key={product.url}
-                  className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden hover:-translate-y-1 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:shadow-lg dark:glow-indigo-hover transition-all duration-300 cursor-pointer"
-                >
-                  <div className="relative h-52 bg-gray-100 dark:bg-gray-700 overflow-hidden">
-                    <img
-                      src={`http://localhost:8000${new URL(product.img).pathname}`}
-                      alt={product.title}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                      onError={(e) => { e.target.src = 'https://placehold.co/300x300/e5e7eb/6366f1?text=No+img' }}
-                    />
-                    {product.condition && (
-                      <span className={`absolute top-3 left-3 text-xs font-semibold px-2 py-0.5 rounded-full border ${badgeClass}`}>
-                        {product.condition}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="p-4">
-                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 leading-snug transition-colors">
-                      {product.title}
-                    </h3>
-                    {product.color && (
-                      <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">{product.color}</p>
-                    )}
-                    <div className="mt-3 flex items-center justify-between">
-                      <span className="text-lg font-black text-indigo-600 dark:text-indigo-400">€ {product.price}</span>
-                      <button className="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors">
-                        Dettagli
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )
+              return <ProductCard key={product.url} product={product} badgeClass={badgeClass} />
             })}
           </div>
         )}
