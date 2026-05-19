@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useProducts } from '../hooks/useProducts'
+import PremiumPhone from '../components/premium_phone'
 
 const categoryMap = {
   telefoni: 'phone',
@@ -19,10 +21,22 @@ const conditionColors = {
   ricondizionato: 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/30',
 }
 
+const conditions = [
+  { value: null, label: 'Tutti' },
+  { value: 'nuovo', label: 'Nuovo' },
+  { value: 'usato', label: 'Usato' },
+  { value: 'ricondizionato', label: 'Ricondizionato' },
+]
+
 const ProductsPage = () => {
   const { category } = useParams()
   const endpoint = categoryMap[category]
   const { products, loading, error } = useProducts(endpoint)
+  const [selectedCondition, setSelectedCondition] = useState(null)
+
+  const filtered = selectedCondition
+    ? products.filter((p) => p.condition?.toLowerCase() === selectedCondition)
+    : products
 
   if (!endpoint) {
     return (
@@ -43,8 +57,31 @@ const ProductsPage = () => {
         <div className="relative max-w-7xl mx-auto">
           <h1 className="text-3xl font-black text-gray-900 dark:text-white transition-colors">{categoryLabels[category]}</h1>
           <p className="mt-1 text-gray-500 dark:text-gray-400 text-sm transition-colors">
-            {loading ? '...' : `${products.length} prodotti disponibili`}
+            {loading ? '...' : `${filtered.length} prodotti disponibili`}
           </p>
+
+          {/* Filtro condizione */}
+          <div className="mt-5 flex flex-wrap gap-2">
+            {conditions.map((c) => {
+              const active = selectedCondition === c.value
+              const badge = c.value ? conditionColors[c.value] : null
+              return (
+                <button
+                  key={c.label}
+                  onClick={() => setSelectedCondition(c.value)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all duration-150 ${
+                    active
+                      ? c.value
+                        ? conditionColors[c.value]
+                        : 'bg-indigo-600 text-white border-indigo-600'
+                      : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-500/50'
+                  }`}
+                >
+                  {c.label}
+                </button>
+              )
+            })}
+          </div>
         </div>
       </div>
 
@@ -70,13 +107,13 @@ const ProductsPage = () => {
           <div className="text-center py-20 text-red-500 dark:text-red-400">{error}</div>
         )}
 
-        {!loading && !error && products.length === 0 && (
+        {!loading && !error && filtered.length === 0 && (
           <div className="text-center py-20 text-gray-500 dark:text-gray-400">Nessun prodotto disponibile.</div>
         )}
 
-        {!loading && !error && products.length > 0 && (
+        {!loading && !error && filtered.length > 0 && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {products.map((product) => {
+            {filtered.map((product) => {
               const conditionKey = product.condition?.toLowerCase()
               const badgeClass = conditionColors[conditionKey] || 'bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-700/50 dark:text-gray-400 dark:border-gray-600'
 
@@ -119,6 +156,8 @@ const ProductsPage = () => {
           </div>
         )}
       </div>
+
+      {category === 'telefoni' && <PremiumPhone />}
     </div>
   )
 }

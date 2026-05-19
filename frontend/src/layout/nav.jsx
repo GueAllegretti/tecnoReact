@@ -14,17 +14,21 @@ const Nav = () => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { dark, toggle } = useTheme()
 
+  const links = [
+    { label: 'Dove siamo', to: '/dove-siamo' }
+  ]
+
   return (
     <header className="bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800 sticky top-0 z-50 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <span className="text-xl font-black gradient-text tracking-tight">Tecnopoint</span>
-          </Link>
+          {/* Logo + Desktop nav */}
+          <div className="flex items-center gap-8">
+            <Link to="/" className="flex items-center space-x-2">
+              <span className="text-xl font-black gradient-text tracking-tight">Tecnopoint</span>
+            </Link>
 
-          {/* Desktop nav */}
           <nav className="hidden lg:flex items-center space-x-8">
             <Popover className="relative">
               {({ open }) => (
@@ -63,13 +67,13 @@ const Nav = () => {
               )}
             </Popover>
 
-            <Link to="#" className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
-              Chi siamo
-            </Link>
-            <Link to="#" className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
-              Contatti
-            </Link>
+            {links.map(({ label, to }) => (
+              <Link key={label} to={to} className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
+                {label}
+              </Link>
+            ))}
           </nav>
+          </div>
 
           <div className="flex items-center gap-2">
             {/* Dark mode toggle */}
@@ -125,10 +129,10 @@ const Nav = () => {
               ))}
 
               <div className="border-t border-gray-200 dark:border-gray-800 mt-4 pt-4 space-y-1">
-                {['Chi siamo', 'Contatti'].map((label) => (
+                {links.map(({ label, to }) => (
                   <Link
                     key={label}
-                    to="#"
+                    to={to}
                     className="block px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white transition-colors"
                     onClick={() => setMobileOpen(false)}
                   >

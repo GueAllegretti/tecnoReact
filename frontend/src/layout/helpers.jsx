@@ -12,7 +12,6 @@ export const request = axios.create({
 export async function getApi(endPoint) {
   try {
     const response = await request.get(endPoint);
-    //console.log(response, 'test')
     return response.data
   } catch (e) {
     console.log(e)

@@ -1,6 +1,24 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Phone, Tablet, Brand, Accessori
+from .models import Phone, Tablet, Brand, Accessori, Operatore, PhoneImage, TabletImage, AccessoriImage
+
+
+class PhoneImageInline(admin.TabularInline):
+    model = PhoneImage
+    extra = 1
+    fields = ('img',)
+
+
+class TabletImageInline(admin.TabularInline):
+    model = TabletImage
+    extra = 1
+    fields = ('img',)
+
+
+class AccessoriImageInline(admin.TabularInline):
+    model = AccessoriImage
+    extra = 1
+    fields = ('img',)
 
 
 class ProductAdminBase(admin.ModelAdmin):
@@ -23,7 +41,9 @@ class PhoneAdmin(ProductAdminBase):
     list_display = ('thumbnail', 'title', 'brand', 'condition', 'price_display', 'color', 'date')
     list_filter = ('brand', 'condition', 'color')
     search_fields = ('title', 'description')
+    autocomplete_fields = ['brand']
     ordering = ('-date',)
+    inlines = [PhoneImageInline]
 
 
 @admin.register(Tablet)
@@ -31,7 +51,9 @@ class TabletAdmin(ProductAdminBase):
     list_display = ('thumbnail', 'title', 'brand', 'condition', 'price_display', 'color', 'date')
     list_filter = ('brand', 'condition', 'color')
     search_fields = ('title', 'description')
+    autocomplete_fields = ['brand']
     ordering = ('-date',)
+    inlines = [TabletImageInline]
 
 
 @admin.register(Accessori)
@@ -39,9 +61,22 @@ class AccessoriAdmin(ProductAdminBase):
     list_display = ('thumbnail', 'title', 'brand', 'condition', 'price_display', 'color')
     list_filter = ('brand', 'condition')
     search_fields = ('title', 'description')
+    inlines = [AccessoriImageInline]
 
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('title',)
     search_fields = ('title',)
+
+
+@admin.register(Operatore)
+class OperatoreAdmin(admin.ModelAdmin):
+    list_display = ('logo_preview', 'nome', 'descrizione', 'colore')
+    search_fields = ('nome',)
+
+    def logo_preview(self, obj):
+        if obj.img:
+            return format_html('<img src="/media/{}" style="height:40px;border-radius:6px;object-fit:contain;" />', obj.img)
+        return '—'
+    logo_preview.short_description = 'Logo'
