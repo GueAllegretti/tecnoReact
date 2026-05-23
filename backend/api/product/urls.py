@@ -7,6 +7,7 @@ router.register(r'tablet', views.TabletViewSet)
 router.register(r'brand', views.BrandViewSet)
 router.register(r'accessori', views.AccessoriViewSet)
 router.register(r'operatori', views.OperatoreViewSet)
+router.register(r'pc', views.PcViewSet)
 
 # wire up our API using automatic URL routing.
 # additionally, we include login URLs for the browsable API.

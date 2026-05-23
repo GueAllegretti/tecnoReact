@@ -1,15 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useProducts } from '../hooks/useProducts'
-import PremiumPhone from '../components/premium_phone'
 
-const getId = (url) => url?.split('/').filter(Boolean).pop()
+const BASE = 'http://localhost:8000'
+
+const conditionColors = {
+  nuovo: 'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30',
+  usato: 'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30',
+  ricondizionato: 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/30',
+}
+
+const categoryLabels = {
+  phone: 'Telefoni',
+  tablet: 'Tablet',
+  accessori: 'Accessori',
+  pc: 'PC',
+}
 
 const toUrl = (img) => {
   if (!img) return null
-  try { return `http://localhost:8000${new URL(img).pathname}` }
-  catch { return `http://localhost:8000/media/${img}` }
+  try { return `${BASE}${new URL(img).pathname}` }
+  catch { return `${BASE}/media/${img}` }
 }
+
+const getId = (url) => url?.split('/').filter(Boolean).pop()
+
+const categoryFromEndpoint = { phone: 'telefoni', tablet: 'tablet', accessori: 'accessori', pc: 'pc' }
 
 const ShareIcons = {
   share: (
@@ -45,20 +60,19 @@ const ShareIcons = {
   ),
 }
 
-const ProductCard = ({ product, badgeClass, category }) => {
-  const images = [
-    toUrl(product.img),
-    ...(product.images || []).map(i => toUrl(i.img)),
-  ].filter(Boolean)
-
+const ProductCard = ({ product, endpoint }) => {
+  const navigate = useNavigate()
+  const images = [toUrl(product.img), ...(product.images || []).map(i => toUrl(i.img))].filter(Boolean)
   const [idx, setIdx] = useState(0)
   const [showShare, setShowShare] = useState(false)
   const [copied, setCopied] = useState(false)
-  const navigate = useNavigate()
+  const conditionKey = product.condition?.toLowerCase()
+  const badgeClass = conditionColors[conditionKey] || 'bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-700/50 dark:text-gray-400 dark:border-gray-600'
+
   const prev = (e) => { e.stopPropagation(); setIdx(i => (i - 1 + images.length) % images.length) }
   const next = (e) => { e.stopPropagation(); setIdx(i => (i + 1) % images.length) }
 
-  const productUrl = `${window.location.origin}/prodotti/${category}/${getId(product.url)}`
+  const productUrl = `${window.location.origin}/prodotti/${categoryFromEndpoint[endpoint]}/${getId(product.url)}`
 
   const handleShare = async (e) => {
     e.stopPropagation()
@@ -78,7 +92,7 @@ const ProductCard = ({ product, badgeClass, category }) => {
   }
 
   return (
-    <div onClick={() => navigate(`/prodotti/${category}/${getId(product.url)}`)} className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden hover:-translate-y-1 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:shadow-lg dark:glow-indigo-hover transition-all duration-300 cursor-pointer">
+    <div onClick={() => navigate(`/prodotti/${categoryFromEndpoint[endpoint]}/${getId(product.url)}`)} className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden hover:-translate-y-1 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:shadow-lg transition-all duration-300 cursor-pointer">
       <div className="relative h-52 bg-gray-100 dark:bg-gray-700 overflow-hidden">
         <img
           src={images[idx]}
@@ -86,29 +100,17 @@ const ProductCard = ({ product, badgeClass, category }) => {
           className="w-full h-full object-cover object-center transition-all duration-500"
           onError={(e) => { e.target.src = 'https://placehold.co/300x300/e5e7eb/6366f1?text=No+img' }}
         />
-
         {images.length > 1 && (
           <>
-            <button
-              onClick={prev}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-900 hover:bg-gray-700 text-white flex items-center justify-center text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
-            >‹</button>
-            <button
-              onClick={next}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-900 hover:bg-gray-700 text-white flex items-center justify-center text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
-            >›</button>
+            <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-900 hover:bg-gray-700 text-white flex items-center justify-center text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-md">‹</button>
+            <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-900 hover:bg-gray-700 text-white flex items-center justify-center text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-md">›</button>
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
               {images.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={(e) => { e.stopPropagation(); setIdx(i) }}
-                  className={`w-1.5 h-1.5 rounded-full transition-all ${i === idx ? 'bg-white scale-125' : 'bg-white/50'}`}
-                />
+                <button key={i} onClick={(e) => { e.stopPropagation(); setIdx(i) }} className={`w-1.5 h-1.5 rounded-full transition-all ${i === idx ? 'bg-white scale-125' : 'bg-white/50'}`} />
               ))}
             </div>
           </>
         )}
-
         {product.condition && (
           <span className={`absolute top-3 left-3 text-xs font-semibold px-2 py-0.5 rounded-full border ${badgeClass}`}>
             {product.condition}
@@ -122,22 +124,20 @@ const ProductCard = ({ product, badgeClass, category }) => {
         {product.status === 'PRENOTATO' && (
           <span className="absolute top-3 right-3 bg-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">PRENOTATO</span>
         )}
+        {!product.status && (
+          <span className="absolute top-3 right-3 text-xs font-medium px-2 py-0.5 rounded-full bg-black/40 text-white">
+            {categoryLabels[endpoint]}
+          </span>
+        )}
       </div>
-
       <div className="p-4">
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 leading-snug transition-colors">
-          {product.title}
-        </h3>
-        {product.short_description && (
-          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-snug">{product.short_description}</p>
-        )}
-        {product.color && (
-          <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">{product.color}</p>
-        )}
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 leading-snug">{product.title}</h3>
+        {product.short_description && <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-snug">{product.short_description}</p>}
+        {product.color && <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">{product.color}</p>}
         <div className="mt-3 flex items-center justify-between">
           <span className="text-lg font-black text-indigo-600 dark:text-indigo-400">€ {product.price}</span>
           <button
-            onClick={e => { e.stopPropagation(); navigate(`/prodotti/${category}/${getId(product.url)}`) }}
+            onClick={e => { e.stopPropagation(); navigate(`/prodotti/${categoryFromEndpoint[endpoint]}/${getId(product.url)}`) }}
             className="text-xs px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors"
           >
             Dettagli
@@ -172,93 +172,55 @@ const ProductCard = ({ product, badgeClass, category }) => {
   )
 }
 
-const categoryMap = {
-  telefoni: 'phone',
-  tablet: 'tablet',
-  accessori: 'accessori',
-  pc: 'pc',
-}
+const BrandProductsPage = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
 
-const categoryLabels = {
-  telefoni: 'Telefoni 📱',
-  tablet: 'Tablet 💻',
-  accessori: 'Accessori 🎧',
-  pc: 'PC 🖥️',
-}
+  const [brandName, setBrandName] = useState('')
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
 
-const conditionColors = {
-  nuovo: 'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30',
-  usato: 'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30',
-  ricondizionato: 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/30',
-}
+  useEffect(() => {
+    const endpoints = ['phone', 'tablet', 'accessori', 'pc']
 
-const conditions = [
-  { value: null, label: 'Tutti' },
-  { value: 'nuovo', label: 'Nuovo' },
-  { value: 'usato', label: 'Usato' },
-  { value: 'ricondizionato', label: 'Ricondizionato' },
-]
+    fetch(`${BASE}/brand/${id}/`)
+      .then(res => res.json())
+      .then(data => setBrandName(data.title))
+      .catch(() => {})
 
-const ProductsPage = () => {
-  const { category } = useParams()
-  const endpoint = categoryMap[category]
-  const { products, loading, error } = useProducts(endpoint)
-  const [selectedCondition, setSelectedCondition] = useState(null)
-
-  const filtered = selectedCondition
-    ? products.filter((p) => p.condition?.toLowerCase() === selectedCondition)
-    : products
-
-  if (!endpoint) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center text-gray-500 transition-colors">
-        Categoria non trovata.
-      </div>
-    )
-  }
+    Promise.all(
+      endpoints.map(ep =>
+        fetch(`${BASE}/${ep}/?brand=${id}`)
+          .then(res => res.json())
+          .then(data => data.map(p => ({ ...p, _endpoint: ep })))
+          .catch(() => [])
+      )
+    ).then(results => {
+      setProducts(results.flat())
+      setLoading(false)
+    })
+  }, [id])
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
 
-      {/* Page header */}
-      <div className="relative bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-4 sm:px-6 lg:px-8 py-10 transition-colors">
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-indigo-400/5 dark:bg-indigo-600/10 rounded-full blur-3xl" />
-        </div>
-        <div className="relative max-w-7xl mx-auto">
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white transition-colors">{categoryLabels[category]}</h1>
-          <p className="mt-1 text-gray-500 dark:text-gray-400 text-sm transition-colors">
-            {loading ? '...' : `${filtered.length} prodotti disponibili`}
+      {/* Header */}
+      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-4 sm:px-6 lg:px-8 py-10 transition-colors">
+        <div className="max-w-7xl mx-auto">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-4"
+          >
+            ← Torna indietro
+          </button>
+          <h1 className="text-3xl font-black text-gray-900 dark:text-white">{brandName || '...'}</h1>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            {loading ? '...' : `${products.length} prodotti disponibili`}
           </p>
-
-          {/* Filtro condizione */}
-          <div className="mt-5 flex flex-wrap gap-2">
-            {conditions.map((c) => {
-              const active = selectedCondition === c.value
-              const badge = c.value ? conditionColors[c.value] : null
-              return (
-                <button
-                  key={c.label}
-                  onClick={() => setSelectedCondition(c.value)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all duration-150 ${
-                    active
-                      ? c.value
-                        ? conditionColors[c.value]
-                        : 'bg-indigo-600 text-white border-indigo-600'
-                      : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-500/50'
-                  }`}
-                >
-                  {c.label}
-                </button>
-              )
-            })}
-          </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-
-        {/* Skeleton */}
         {loading && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[...Array(8)].map((_, i) => (
@@ -274,28 +236,22 @@ const ProductsPage = () => {
           </div>
         )}
 
-        {error && (
-          <div className="text-center py-20 text-red-500 dark:text-red-400">{error}</div>
+        {!loading && products.length === 0 && (
+          <div className="text-center py-20 text-gray-500 dark:text-gray-400">
+            Nessun prodotto disponibile per questo brand.
+          </div>
         )}
 
-        {!loading && !error && filtered.length === 0 && (
-          <div className="text-center py-20 text-gray-500 dark:text-gray-400">Nessun prodotto disponibile.</div>
-        )}
-
-        {!loading && !error && filtered.length > 0 && (
+        {!loading && products.length > 0 && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {filtered.map((product) => {
-              const conditionKey = product.condition?.toLowerCase()
-              const badgeClass = conditionColors[conditionKey] || 'bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-700/50 dark:text-gray-400 dark:border-gray-600'
-              return <ProductCard key={product.url} product={product} badgeClass={badgeClass} category={category} />
-            })}
+            {products.map((product) => (
+              <ProductCard key={`${product._endpoint}-${product.url}`} product={product} endpoint={product._endpoint} />
+            ))}
           </div>
         )}
       </div>
-
-      {category === 'telefoni' && <PremiumPhone />}
     </div>
   )
 }
 
-export default ProductsPage
+export default BrandProductsPage

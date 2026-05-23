@@ -8,6 +8,7 @@ const prodotti = [
   { name: 'Telefoni', href: '/prodotti/telefoni', description: 'Smartphone di tutte le fasce', icon: '📱' },
   { name: 'Tablet', href: '/prodotti/tablet', description: 'Tablet per lavoro e intrattenimento', icon: '💻' },
   { name: 'Accessori', href: '/prodotti/accessori', description: 'Cover, cuffie, caricabatterie e altro', icon: '🎧' },
+  { name: 'PC', href: '/prodotti/pc', description: 'Laptop e desktop ricondizionati', icon: '🖥️' },
 ]
 
 const Nav = () => {
@@ -31,7 +32,7 @@ const Nav = () => {
 
           <nav className="hidden lg:flex items-center space-x-8">
             <Popover className="relative">
-              {({ open }) => (
+              {({ open, close }) => (
                 <>
                   <Popover.Button className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white focus:outline-none transition-colors">
                     Prodotti
@@ -52,6 +53,7 @@ const Nav = () => {
                         <Link
                           key={item.name}
                           to={item.href}
+                          onClick={() => close()}
                           className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group"
                         >
                           <span className="text-xl">{item.icon}</span>

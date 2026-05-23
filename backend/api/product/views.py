@@ -43,3 +43,12 @@ class OperatoreViewSet(viewsets.ModelViewSet):
     serializer_class = OperatoreSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['nome']
+
+
+class PcViewSet(viewsets.ModelViewSet):
+    queryset = Pc.objects.all().order_by('date')
+    serializer_class = PcSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['brand', 'brand__title', 'condition', 'color']
+    search_fields = ['title', 'description']
+    ordering_fields = ['price', 'date', 'title']

@@ -5,6 +5,7 @@ const categoryMap = {
   telefoni: 'phone',
   tablet: 'tablet',
   accessori: 'accessori',
+  pc: 'pc',
 }
 
 const conditionColors = {
@@ -28,6 +29,7 @@ const ProductDetailPage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [activeImg, setActiveImg] = useState(0)
+  const [activeTab, setActiveTab] = useState('descrizione')
 
   useEffect(() => {
     if (!endpoint) return
@@ -129,9 +131,24 @@ const ProductDetailPage = () => {
 
           {/* Info prodotto */}
           <div className="flex flex-col">
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white leading-tight transition-colors">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              {product.status === 'VENDUTO' && (
+                <span className="bg-red-600 text-white text-xs font-black px-3 py-1 rounded-full tracking-wide">VENDUTO</span>
+              )}
+              {product.status === 'PRENOTATO' && (
+                <span className="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">PRENOTATO</span>
+              )}
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">
               {product.title}
             </h1>
+
+            {product.short_description && (
+              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                {product.short_description}
+              </p>
+            )}
 
             <div className="mt-3 flex flex-wrap gap-2 items-center">
               {product.condition && (
@@ -152,12 +169,49 @@ const ProductDetailPage = () => {
               </span>
             </div>
 
-            {product.description && (
+            {(product.description || product.specifiche) && (
               <div className="mt-6">
-                <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 transition-colors">Descrizione</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed transition-colors">
-                  {product.description}
-                </p>
+                {/* Tab bar */}
+                <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+                  {product.description && (
+                    <button
+                      onClick={() => setActiveTab('descrizione')}
+                      className={`px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${
+                        activeTab === 'descrizione'
+                          ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400'
+                          : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                      }`}
+                    >
+                      Descrizione
+                    </button>
+                  )}
+                  {product.specifiche && (
+                    <button
+                      onClick={() => setActiveTab('specifiche')}
+                      className={`px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${
+                        activeTab === 'specifiche'
+                          ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400'
+                          : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                      }`}
+                    >
+                      Specifiche
+                    </button>
+                  )}
+                </div>
+
+                {/* Tab content */}
+                {activeTab === 'descrizione' && product.description && (
+                  <div
+                    className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed prose prose-sm dark:prose-invert max-w-none"
+                    dangerouslySetInnerHTML={{ __html: product.description }}
+                  />
+                )}
+                {activeTab === 'specifiche' && product.specifiche && (
+                  <div
+                    className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed prose prose-sm dark:prose-invert max-w-none"
+                    dangerouslySetInnerHTML={{ __html: product.specifiche }}
+                  />
+                )}
               </div>
             )}
 

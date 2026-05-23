@@ -54,3 +54,17 @@ class AccessoriSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Accessori
         fields = '__all__'
+
+
+class PcImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PcImage
+        fields = ('id', 'img')
+
+
+class PcSerializer(serializers.HyperlinkedModelSerializer):
+    images = PcImageSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Pc
+        fields = '__all__'

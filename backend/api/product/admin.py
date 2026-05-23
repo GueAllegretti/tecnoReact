@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Phone, Tablet, Brand, Accessori, Operatore, PhoneImage, TabletImage, AccessoriImage
+from tinymce.widgets import TinyMCE
+from .models import Phone, Tablet, Pc, Brand, Accessori, Operatore, PhoneImage, TabletImage, AccessoriImage, PcImage
 
 
 class PhoneImageInline(admin.TabularInline):
@@ -11,6 +12,12 @@ class PhoneImageInline(admin.TabularInline):
 
 class TabletImageInline(admin.TabularInline):
     model = TabletImage
+    extra = 1
+    fields = ('img',)
+    
+
+class PcImageInline(admin.TabularInline):
+    model = PcImage
     extra = 1
     fields = ('img',)
 
@@ -38,30 +45,64 @@ class ProductAdminBase(admin.ModelAdmin):
 
 @admin.register(Phone)
 class PhoneAdmin(ProductAdminBase):
-    list_display = ('thumbnail', 'title', 'brand', 'condition', 'price_display', 'color', 'date')
-    list_filter = ('brand', 'condition', 'color')
+    list_display = ('thumbnail', 'title', 'brand', 'condition', 'status', 'price_display', 'color', 'date')
+    list_filter = ('brand', 'condition', 'status', 'color')
     search_fields = ('title', 'description')
     autocomplete_fields = ['brand']
     ordering = ('-date',)
     inlines = [PhoneImageInline]
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['description'].widget = TinyMCE()
+        form.base_fields['specifiche'].widget = TinyMCE()
+        return form
+
 
 @admin.register(Tablet)
 class TabletAdmin(ProductAdminBase):
-    list_display = ('thumbnail', 'title', 'brand', 'condition', 'price_display', 'color', 'date')
-    list_filter = ('brand', 'condition', 'color')
+    list_display = ('thumbnail', 'title', 'brand', 'condition', 'status', 'price_display', 'color', 'date')
+    list_filter = ('brand', 'condition', 'status', 'color')
     search_fields = ('title', 'description')
     autocomplete_fields = ['brand']
     ordering = ('-date',)
     inlines = [TabletImageInline]
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['description'].widget = TinyMCE()
+        form.base_fields['specifiche'].widget = TinyMCE()
+        return form
+
+
+@admin.register(Pc)
+class PcAdmin(ProductAdminBase):
+    list_display = ('thumbnail', 'title', 'brand', 'condition', 'status', 'price_display', 'color', 'date')
+    list_filter = ('brand', 'condition', 'status', 'color')
+    search_fields = ('title', 'description')
+    autocomplete_fields = ['brand']
+    ordering = ('-date',)
+    inlines = [PcImageInline]
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['description'].widget = TinyMCE()
+        form.base_fields['specifiche'].widget = TinyMCE()
+        return form
+
 
 @admin.register(Accessori)
 class AccessoriAdmin(ProductAdminBase):
-    list_display = ('thumbnail', 'title', 'brand', 'condition', 'price_display', 'color')
-    list_filter = ('brand', 'condition')
+    list_display = ('thumbnail', 'title', 'brand', 'condition', 'status', 'price_display', 'color')
+    list_filter = ('brand', 'condition', 'status')
     search_fields = ('title', 'description')
     inlines = [AccessoriImageInline]
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['description'].widget = TinyMCE()
+        form.base_fields['specifiche'].widget = TinyMCE()
+        return form
 
 
 @admin.register(Brand)
@@ -74,6 +115,12 @@ class BrandAdmin(admin.ModelAdmin):
 class OperatoreAdmin(admin.ModelAdmin):
     list_display = ('logo_preview', 'nome', 'descrizione', 'colore')
     search_fields = ('nome',)
+    fields = ('nome', 'descrizione', 'info', 'img', 'colore')
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['info'].widget = TinyMCE()
+        return form
 
     def logo_preview(self, obj):
         if obj.img:

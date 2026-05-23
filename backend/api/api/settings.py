@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'product',
     'rest_framework',
     'django_filters',
+    'tinymce',
 ]
 
 REST_FRAMEWORK = {
@@ -203,4 +204,12 @@ JAZZMIN_UI_TWEAKS = {
         "danger": "btn-danger",
         "success": "btn-success",
     },
+}
+
+TINYMCE_DEFAULT_CONFIG = {
+    "height": 360,
+    "menubar": False,
+    "plugins": "lists link",
+    "toolbar": "bold italic underline | bullist numlist | link | removeformat",
+    "content_style": "body { font-family: -apple-system, sans-serif; font-size: 14px; }",
 }
