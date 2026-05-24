@@ -67,6 +67,7 @@ class Pc(models.Model):
 
 class Brand(models.Model):
     title = models.CharField(max_length=255)
+    img = models.FileField(upload_to='brand/', blank=True, null=True, verbose_name='Logo')
 
     def __str__(self):
         return self.title

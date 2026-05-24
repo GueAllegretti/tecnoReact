@@ -67,7 +67,7 @@ const Footer = () => {
             © {year} Tecnopoint. Tutti i diritti riservati.
           </p>
           <p className="text-xs text-gray-400 dark:text-gray-500">
-            Roma, Italia
+            Powered ❤️ GA
           </p>
         </div>
       </div>

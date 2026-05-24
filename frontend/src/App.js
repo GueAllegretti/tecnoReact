@@ -7,6 +7,7 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import DoveSiamo from './pages/DoveSiamo';
 import OperatoreDetailPage from './pages/OperatoreDetailPage';
 import BrandProductsPage from './pages/BrandProductsPage';
+import ComeFunzionaPage from './pages/ComeFunzionaPage';
 import Footer from './layout/footer';
 import CookieBanner from './components/CookieBanner';
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/dove-siamo" element={<DoveSiamo />} />
             <Route path="/operatori/:id" element={<OperatoreDetailPage />} />
             <Route path="/brand/:id" element={<BrandProductsPage />} />
+            <Route path="/come-funziona" element={<ComeFunzionaPage />} />
           </Routes>
         </main>
         <Footer />

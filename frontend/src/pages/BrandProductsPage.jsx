@@ -132,7 +132,6 @@ const ProductCard = ({ product, endpoint }) => {
       </div>
       <div className="p-4">
         <h3 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 leading-snug">{product.title}</h3>
-        {product.short_description && <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-snug">{product.short_description}</p>}
         {product.color && <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">{product.color}</p>}
         <div className="mt-3 flex items-center justify-between">
           <span className="text-lg font-black text-indigo-600 dark:text-indigo-400">€ {product.price}</span>

@@ -107,8 +107,14 @@ class AccessoriAdmin(ProductAdminBase):
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ('title',)
+    list_display = ('logo_preview', 'title')
     search_fields = ('title',)
+
+    def logo_preview(self, obj):
+        if obj.img:
+            return format_html('<img src="/media/{}" style="height:40px;object-fit:contain;border-radius:6px;" />', obj.img)
+        return '—'
+    logo_preview.short_description = 'Logo'
 
 
 @admin.register(Operatore)

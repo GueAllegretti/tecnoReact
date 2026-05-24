@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Servizi from './servizi'
+import Personalizzazione from './personalizzazione'
 
 const categories = [
   {
@@ -29,13 +30,45 @@ const categories = [
   },
 ]
 
+const BASE = 'http://localhost:8000'
 const palette = ['#6366f1','#a855f7','#ec4899','#f59e0b','#10b981','#3b82f6','#ef4444','#14b8a6','#f97316','#8b5cf6']
 const brandColor = (name) => palette[name.charCodeAt(0) % palette.length]
 const getId = (url) => url?.split('/').filter(Boolean).pop()
+const toBrandImgUrl = (img) => {
+  if (!img) return null
+  try { return `${BASE}${new URL(img).pathname}` }
+  catch { return `${BASE}/media/${img}` }
+}
 
 const Brand = () => {
   const [operatori, setOperatori] = useState([])
   const [brands, setBrands] = useState([])
+  const [brandIdx, setBrandIdx] = useState(0)
+  const [brandAnimated, setBrandAnimated] = useState(true)
+
+  const CARD_W = 208 // w-48 (192px) + gap-4 (16px)
+
+  const goPrev = () => setBrandIdx(i => i - 1)
+  const goNext = () => setBrandIdx(i => i + 1)
+
+  useEffect(() => {
+    if (brands.length === 0) return
+    if (brandIdx >= brands.length) {
+      const t = setTimeout(() => { setBrandAnimated(false); setBrandIdx(0) }, 320)
+      return () => clearTimeout(t)
+    }
+    if (brandIdx < 0) {
+      const t = setTimeout(() => { setBrandAnimated(false); setBrandIdx(brands.length - 1) }, 320)
+      return () => clearTimeout(t)
+    }
+  }, [brandIdx, brands.length])
+
+  useEffect(() => {
+    if (!brandAnimated) {
+      const frame = requestAnimationFrame(() => setBrandAnimated(true))
+      return () => cancelAnimationFrame(frame)
+    }
+  }, [brandAnimated])
 
   useEffect(() => {
     fetch('http://localhost:8000/operatori/')
@@ -110,59 +143,7 @@ const Brand = () => {
       </section>
 
       {/* Personalizzazione */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="rounded-3xl overflow-hidden bg-gray-900 dark:bg-gray-800">
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-
-            {/* Testo */}
-            <div className="p-8 sm:p-12 flex flex-col justify-center">
-              <span className="inline-block mb-4 w-fit px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-400 text-xs font-semibold uppercase tracking-wider">
-                Servizio esclusivo
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight">
-                Personalizza il tuo<br />
-                <span className="gradient-text">smartphone</span>
-              </h2>
-              <p className="mt-4 text-gray-400 text-sm leading-relaxed max-w-sm">
-                Rendi il tuo dispositivo unico. Cover su misura, pellicole protettive premium e personalizzazioni estetiche applicate direttamente in negozio.
-              </p>
-              <ul className="mt-6 space-y-3">
-                {[
-                  { icon: '🛡️', label: 'Pellicole protettive premium' },
-                  { icon: '🎨', label: 'Cover personalizzate' },
-                  { icon: '✨', label: 'Skin e personalizzazioni estetiche' },
-                  { icon: '🔧', label: 'Applicazione professionale in negozio' },
-                ].map(({ icon, label }) => (
-                  <li key={label} className="flex items-center gap-3 text-sm text-gray-300">
-                    <span>{icon}</span>
-                    {label}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                to="/dove-siamo"
-                className="mt-8 w-fit px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition-colors"
-              >
-                Vieni in negozio →
-              </Link>
-            </div>
-
-            {/* Video placeholder — sostituire src dell'iframe con il link YouTube */}
-            <div className="relative bg-gray-800 flex items-center justify-center min-h-64 lg:min-h-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/40 to-purple-900/40" />
-              <div className="relative flex flex-col items-center gap-4 p-8 text-center">
-                <button className="w-20 h-20 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center transition-colors group">
-                  <svg className="w-8 h-8 text-white ml-1 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M8 5v14l11-7z"/>
-                  </svg>
-                </button>
-                <p className="text-sm text-gray-400">Video in arrivo</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
+      <Personalizzazione />
 
       {/* Brand */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
@@ -179,61 +160,65 @@ const Brand = () => {
         </div>
 
         {brands.length === 0 ? (
-          <div className="flex gap-3">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="flex-1 animate-pulse bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl h-20" />
+          <div className="flex gap-4 overflow-hidden">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="shrink-0 w-48 animate-pulse bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl h-48" />
             ))}
           </div>
         ) : (
-          <>
-            {/* Desktop: tutti in una riga */}
-            <div className="hidden sm:flex gap-3">
-              {brands.map((brand) => {
-                const color = brandColor(brand.title)
-                return (
-                  <Link
-                    key={brand.url}
-                    to={`/brand/${getId(brand.url)}`}
-                    className="group flex-1 flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
-                  >
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-sm transition-all group-hover:scale-105"
-                      style={{ backgroundColor: color + '18', color }}
+          <div className="relative flex items-center gap-3">
+            <button
+              onClick={goPrev}
+              className="shrink-0 w-9 h-9 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors z-10"
+            >‹</button>
+
+            <div className="overflow-hidden flex-1">
+              <div
+                className="flex gap-4"
+                style={{
+                  transform: `translateX(-${brandIdx * CARD_W}px)`,
+                  transition: brandAnimated ? 'transform 0.3s ease' : 'none',
+                  width: 'max-content',
+                }}
+              >
+                {[...brands, ...brands].map((brand, i) => {
+                  const color = brandColor(brand.title)
+                  return (
+                    <Link
+                      key={`${brand.url}-${i}`}
+                      to={`/brand/${getId(brand.url)}`}
+                      className="group shrink-0 w-48 flex flex-col items-center justify-center gap-4 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
                     >
-                      {brand.title.substring(0, 2).toUpperCase()}
-                    </div>
-                    <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center leading-tight">
-                      {brand.title}
-                    </span>
-                  </Link>
-                )
-              })}
+                      {toBrandImgUrl(brand.img) ? (
+                        <div className="w-20 h-20 flex items-center justify-center">
+                          <img
+                            src={toBrandImgUrl(brand.img)}
+                            alt={brand.title}
+                            className="w-full h-full object-contain rounded-xl transition-all group-hover:scale-105"
+                            onError={(e) => { e.target.parentElement.style.display = 'none'; e.target.parentElement.nextSibling.style.display = 'flex' }}
+                          />
+                        </div>
+                      ) : null}
+                      <div
+                        className="w-20 h-20 rounded-2xl items-center justify-center font-black text-2xl transition-all group-hover:scale-105"
+                        style={{ backgroundColor: color + '20', color, display: toBrandImgUrl(brand.img) ? 'none' : 'flex' }}
+                      >
+                        {brand.title.substring(0, 2).toUpperCase()}
+                      </div>
+                      <span className="text-sm font-bold text-gray-700 dark:text-gray-300 text-center leading-tight">
+                        {brand.title}
+                      </span>
+                    </Link>
+                  )
+                })}
+              </div>
             </div>
 
-            {/* Mobile: 2 per riga */}
-            <div className="grid grid-cols-2 gap-3 sm:hidden">
-              {brands.map((brand) => {
-                const color = brandColor(brand.title)
-                return (
-                  <Link
-                    key={brand.url}
-                    to={`/brand/${getId(brand.url)}`}
-                    className="group flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:shadow-md transition-all duration-200"
-                  >
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-sm"
-                      style={{ backgroundColor: color + '18', color }}
-                    >
-                      {brand.title.substring(0, 2).toUpperCase()}
-                    </div>
-                    <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center leading-tight">
-                      {brand.title}
-                    </span>
-                  </Link>
-                )
-              })}
-            </div>
-          </>
+            <button
+              onClick={goNext}
+              className="shrink-0 w-9 h-9 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors z-10"
+            >›</button>
+          </div>
         )}
       </section>
 
@@ -304,7 +289,7 @@ const Brand = () => {
             Tutti i nostri dispositivi sono testati, verificati e venduti con garanzia.
           </p>
           <Link
-            to="#"
+            to="/come-funziona"
             className="relative mt-6 inline-block px-6 py-3 rounded-xl bg-white text-indigo-700 font-bold text-sm hover:bg-indigo-50 transition-colors"
           >
             Scopri come funziona
@@ -312,28 +297,57 @@ const Brand = () => {
         </div>
       </section>
 
-      {/* Facebook */}
+      {/* Social */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-8 py-7 transition-colors">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
-              <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-              </svg>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+          {/* Facebook */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-5 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-6 py-6 transition-colors">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
+                <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </div>
+              <div>
+                <p className="font-bold text-gray-900 dark:text-white">Seguici su Facebook</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Offerte e novità nel tuo feed</p>
+              </div>
             </div>
-            <div>
-              <p className="font-bold text-gray-900 dark:text-white">Seguici su Facebook</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Offerte, novità e aggiornamenti direttamente nel tuo feed</p>
-            </div>
+            <a
+              href="https://www.facebook.com/tecnopoint"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors"
+            >
+              Segui
+            </a>
           </div>
-          <a
-            href="https://www.facebook.com/tecnopoint"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors"
-          >
-            Segui la pagina
-          </a>
+
+          {/* Instagram */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-5 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-6 py-6 transition-colors">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)' }}>
+                <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </div>
+              <div>
+                <p className="font-bold text-gray-900 dark:text-white">Seguici su Instagram</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Foto, storie e contenuti esclusivi</p>
+              </div>
+            </div>
+            <a
+              href="https://www.instagram.com/tecnopoint"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 px-5 py-2.5 rounded-xl text-white font-semibold text-sm transition-colors"
+              style={{ background: 'linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)' }}
+            >
+              Segui
+            </a>
+          </div>
+
         </div>
       </section>
 

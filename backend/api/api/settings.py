@@ -135,6 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -151,6 +152,7 @@ JAZZMIN_SETTINGS = {
     "site_title": "Tecnopoint Admin",
     "site_header": "Tecnopoint",
     "site_brand": "Tecnopoint",
+    "site_icon": "favicon.ico",
     "welcome_sign": "Benvenuto nel pannello di gestione",
     "copyright": "Tecnopoint",
     "show_sidebar": True,
