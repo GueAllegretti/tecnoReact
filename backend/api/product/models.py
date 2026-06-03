@@ -7,7 +7,15 @@ class Phone(models.Model):
     brand = models.ForeignKey('Brand', models.DO_NOTHING)
     short_description = models.CharField(max_length=300, blank=True, default='', verbose_name='Descrizione breve')
     description = models.TextField(max_length=4000, blank=True, default='', verbose_name='Descrizione')
-    specifiche = models.TextField(blank=True, default='', verbose_name='Specifiche tecniche')
+    schermo = models.CharField(max_length=100, blank=True, default='', verbose_name='Dimensioni schermo')
+    memoria = models.CharField(max_length=100, blank=True, default='', verbose_name='Memoria')
+    ram = models.CharField(max_length=100, blank=True, default='', verbose_name='RAM')
+    processore = models.CharField(max_length=100, blank=True, default='', verbose_name='Processore')
+    batteria = models.CharField(max_length=100, blank=True, default='', verbose_name='Batteria')
+    sim = models.CharField(max_length=100, blank=True, default='', verbose_name='SIM')
+    fotocamera_posteriore = models.TextField(max_length=4000, blank=True, default='', verbose_name='Fotocamera posteriore')
+    fotocamera_frontale = models.TextField(max_length=4000, blank=True, default='', verbose_name='Fotocamera frontale')
+    info_aggiuntive = models.TextField(blank=True, default='', verbose_name='Informazioni aggiuntive')
     condition = models.CharField(choices=choice_condition, max_length=255)
     status = models.CharField(choices=choice_status, max_length=20, blank=True, default='', verbose_name='Stato')
     price = models.IntegerField()
@@ -83,6 +91,7 @@ class Operatore(models.Model):
     info = models.TextField(blank=True, default='', verbose_name='Informazioni', help_text='Testo libero mostrato nella pagina di dettaglio')
     img = models.FileField(upload_to='operatori/', blank=True, null=True)
     colore = models.CharField(max_length=7, default='#6366f1', help_text='Colore HEX es. #FF0000')
+    offerta_mese = models.BooleanField(default=False, verbose_name='Offerta del mese', help_text='Mostra questo operatore come offerta in evidenza nella home')
 
     def __str__(self):
         return self.nome

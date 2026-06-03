@@ -148,7 +148,7 @@ const ComeFunzionaPage = () => (
     <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
       <div className="rounded-2xl bg-indigo-600 px-8 py-10 text-center">
         <h2 className="text-2xl font-black text-white">Pronto a trovare il tuo dispositivo?</h2>
-        <p className="mt-2 text-indigo-200 text-sm">Sfoglia il catalogo e acquista con la certezza della qualità Tecnopoint.</p>
+        <p className="mt-2 text-indigo-200 text-sm">Sfoglia il catalogo e acquista con la certezza della qualità Technopoint.</p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             to="/prodotti/telefoni"

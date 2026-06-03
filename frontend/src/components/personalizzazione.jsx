@@ -30,12 +30,20 @@ const Personalizzazione = () => (
               </li>
             ))}
           </ul>
-          <Link
-            to="/dove-siamo"
-            className="mt-8 w-fit px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition-colors"
-          >
-            Vieni in negozio →
-          </Link>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              to="/personalizzazione"
+              className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition-colors"
+            >
+              Scopri il servizio →
+            </Link>
+            <Link
+              to="/dove-siamo"
+              className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition-colors"
+            >
+              Vieni in negozio
+            </Link>
+          </div>
         </div>
 
         {/* Video placeholder — sostituire src dell'iframe con il link YouTube */}

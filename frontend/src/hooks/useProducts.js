@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import { API_URL } from '../config'
 
-const BASE_URL = 'http://localhost:8000'
+const BASE_URL = API_URL
 
 export function useProducts(category) {
   const [products, setProducts] = useState([])

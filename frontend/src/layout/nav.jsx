@@ -27,7 +27,7 @@ const Nav = () => {
           {/* Logo + Desktop nav */}
           <div className="flex items-center gap-8">
             <Link to="/" className="flex items-center space-x-2">
-              <span className="text-xl font-black gradient-text tracking-tight">Tecnopoint</span>
+              <span className="text-xl font-black gradient-text tracking-tight">Technopoint</span>
             </Link>
 
           <nav className="hidden lg:flex items-center space-x-8">
@@ -106,7 +106,7 @@ const Nav = () => {
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
           <div className="fixed top-0 right-0 h-full w-72 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 flex flex-col shadow-2xl transition-colors">
             <div className="flex items-center justify-between px-4 h-16 border-b border-gray-200 dark:border-gray-800">
-              <span className="text-lg font-black gradient-text">Tecnopoint</span>
+              <span className="text-lg font-black gradient-text">Technopoint</span>
               <button
                 type="button"
                 className="p-2 rounded-md text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors"

@@ -28,6 +28,7 @@ class AccessoriImageSerializer(serializers.ModelSerializer):
 
 class PhoneSerializer(serializers.HyperlinkedModelSerializer):
     images = PhoneImageSerializer(many=True, read_only=True)
+    brand_name = serializers.CharField(source='brand.title', read_only=True)
 
     class Meta:
         model = Phone
@@ -36,6 +37,7 @@ class PhoneSerializer(serializers.HyperlinkedModelSerializer):
 
 class TabletSerializer(serializers.HyperlinkedModelSerializer):
     images = TabletImageSerializer(many=True, read_only=True)
+    brand_name = serializers.CharField(source='brand.title', read_only=True)
 
     class Meta:
         model = Tablet
@@ -50,6 +52,7 @@ class BrandSerializer(serializers.HyperlinkedModelSerializer):
 
 class AccessoriSerializer(serializers.HyperlinkedModelSerializer):
     images = AccessoriImageSerializer(many=True, read_only=True)
+    brand_name = serializers.CharField(source='brand.title', read_only=True)
 
     class Meta:
         model = Accessori
@@ -64,6 +67,7 @@ class PcImageSerializer(serializers.ModelSerializer):
 
 class PcSerializer(serializers.HyperlinkedModelSerializer):
     images = PcImageSerializer(many=True, read_only=True)
+    brand_name = serializers.CharField(source='brand.title', read_only=True)
 
     class Meta:
         model = Pc

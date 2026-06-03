@@ -1,14 +1,15 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useProducts } from '../hooks/useProducts'
 import PremiumPhone from '../components/premium_phone'
+import { API_URL } from '../config'
 
 const getId = (url) => url?.split('/').filter(Boolean).pop()
 
 const toUrl = (img) => {
   if (!img) return null
-  try { return `http://localhost:8000${new URL(img).pathname}` }
-  catch { return `http://localhost:8000/media/${img}` }
+  try { return `${API_URL}${new URL(img).pathname}` }
+  catch { return `${API_URL}/media/${img}` }
 }
 
 const ShareIcons = {
@@ -89,21 +90,11 @@ const ProductCard = ({ product, badgeClass, category }) => {
 
         {images.length > 1 && (
           <>
-            <button
-              onClick={prev}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-900 hover:bg-gray-700 text-white flex items-center justify-center text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
-            >‹</button>
-            <button
-              onClick={next}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-900 hover:bg-gray-700 text-white flex items-center justify-center text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
-            >›</button>
+            <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-900 hover:bg-gray-700 text-white flex items-center justify-center text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-md">‹</button>
+            <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-900 hover:bg-gray-700 text-white flex items-center justify-center text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-md">›</button>
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
               {images.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={(e) => { e.stopPropagation(); setIdx(i) }}
-                  className={`w-1.5 h-1.5 rounded-full transition-all ${i === idx ? 'bg-white scale-125' : 'bg-white/50'}`}
-                />
+                <button key={i} onClick={(e) => { e.stopPropagation(); setIdx(i) }} className={`w-1.5 h-1.5 rounded-full transition-all ${i === idx ? 'bg-white scale-125' : 'bg-white/50'}`} />
               ))}
             </div>
           </>
@@ -125,12 +116,8 @@ const ProductCard = ({ product, badgeClass, category }) => {
       </div>
 
       <div className="p-4">
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 leading-snug transition-colors">
-          {product.title}
-        </h3>
-        {product.color && (
-          <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">{product.color}</p>
-        )}
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 leading-snug transition-colors">{product.title}</h3>
+        {product.color && <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">{product.color}</p>}
         <div className="mt-3 flex items-center justify-between">
           <span className="text-lg font-black text-indigo-600 dark:text-indigo-400">€ {product.price}</span>
           <button
@@ -148,18 +135,10 @@ const ProductCard = ({ product, badgeClass, category }) => {
             </button>
           ) : (
             <div className="flex items-center gap-1.5">
-              <a href={`https://wa.me/?text=${encodeURIComponent(product.title + ' ' + productUrl)}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} title="WhatsApp" className="w-6 h-6 rounded-full bg-green-500 hover:bg-green-400 flex items-center justify-center text-white transition-colors">
-                {ShareIcons.whatsapp}
-              </a>
-              <a href={`https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(product.title)}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} title="Telegram" className="w-6 h-6 rounded-full bg-sky-500 hover:bg-sky-400 flex items-center justify-center text-white transition-colors">
-                {ShareIcons.telegram}
-              </a>
-              <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} title="Facebook" className="w-6 h-6 rounded-full bg-blue-600 hover:bg-blue-500 flex items-center justify-center text-white transition-colors">
-                {ShareIcons.facebook}
-              </a>
-              <button onClick={copyLink} title="Copia link" className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 transition-colors">
-                {copied ? ShareIcons.check : ShareIcons.copy}
-              </button>
+              <a href={`https://wa.me/?text=${encodeURIComponent(product.title + ' ' + productUrl)}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className="w-6 h-6 rounded-full bg-green-500 hover:bg-green-400 flex items-center justify-center text-white transition-colors">{ShareIcons.whatsapp}</a>
+              <a href={`https://t.me/share/url?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(product.title)}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className="w-6 h-6 rounded-full bg-sky-500 hover:bg-sky-400 flex items-center justify-center text-white transition-colors">{ShareIcons.telegram}</a>
+              <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className="w-6 h-6 rounded-full bg-blue-600 hover:bg-blue-500 flex items-center justify-center text-white transition-colors">{ShareIcons.facebook}</a>
+              <button onClick={copyLink} className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 transition-colors">{copied ? ShareIcons.check : ShareIcons.copy}</button>
               <button onClick={e => { e.stopPropagation(); setShowShare(false) }} className="ml-auto text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">✕</button>
             </div>
           )}
@@ -169,125 +148,221 @@ const ProductCard = ({ product, badgeClass, category }) => {
   )
 }
 
-const categoryMap = {
-  telefoni: 'phone',
-  tablet: 'tablet',
-  accessori: 'accessori',
-  pc: 'pc',
-}
-
-const categoryLabels = {
-  telefoni: 'Telefoni 📱',
-  tablet: 'Tablet 💻',
-  accessori: 'Accessori 🎧',
-  pc: 'PC 🖥️',
-}
-
+const categoryMap = { telefoni: 'phone', tablet: 'tablet', accessori: 'accessori', pc: 'pc' }
+const categoryLabels = { telefoni: 'Telefoni 📱', tablet: 'Tablet 💻', accessori: 'Accessori 🎧', pc: 'PC 🖥️' }
 const conditionColors = {
   nuovo: 'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30',
   usato: 'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30',
   ricondizionato: 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/30',
 }
 
-const conditions = [
-  { value: null, label: 'Tutti' },
-  { value: 'nuovo', label: 'Nuovo' },
-  { value: 'usato', label: 'Usato' },
-  { value: 'ricondizionato', label: 'Ricondizionato' },
-]
+const selectClass = 'w-full text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 text-gray-700 dark:text-gray-300 focus:outline-none focus:border-indigo-400 dark:focus:border-indigo-500 transition-colors appearance-none cursor-pointer'
 
 const ProductsPage = () => {
   const { category } = useParams()
   const endpoint = categoryMap[category]
   const { products, loading, error } = useProducts(endpoint)
-  const [selectedCondition, setSelectedCondition] = useState(null)
 
-  const filtered = selectedCondition
-    ? products.filter((p) => p.condition?.toLowerCase() === selectedCondition)
-    : products
+  const [filterCondition, setFilterCondition] = useState('')
+  const [filterBrand, setFilterBrand] = useState('')
+  const [filterColor, setFilterColor] = useState('')
+  const [priceMin, setPriceMin] = useState('')
+  const [priceMax, setPriceMax] = useState('')
+  const [sortBy, setSortBy] = useState('newest')
+  const [filtersOpen, setFiltersOpen] = useState(false)
+
+  const brands = useMemo(() => [...new Set(products.map(p => p.brand_name).filter(Boolean))].sort(), [products])
+  const colors = useMemo(() => [...new Set(products.map(p => p.color).filter(Boolean))].sort(), [products])
+
+  const activeFiltersCount = [filterCondition, filterBrand, filterColor, priceMin, priceMax].filter(Boolean).length
+
+  const resetFilters = () => {
+    setFilterCondition(''); setFilterBrand(''); setFilterColor('')
+    setPriceMin(''); setPriceMax(''); setSortBy('newest')
+  }
+
+  const filtered = useMemo(() => {
+    let list = [...products]
+    if (filterCondition) list = list.filter(p => p.condition?.toLowerCase() === filterCondition)
+    if (filterBrand) list = list.filter(p => p.brand_name === filterBrand)
+    if (filterColor) list = list.filter(p => p.color === filterColor)
+    if (priceMin !== '') list = list.filter(p => p.price >= Number(priceMin))
+    if (priceMax !== '') list = list.filter(p => p.price <= Number(priceMax))
+    switch (sortBy) {
+      case 'price_asc':  list.sort((a, b) => a.price - b.price); break
+      case 'price_desc': list.sort((a, b) => b.price - a.price); break
+      case 'name_asc':   list.sort((a, b) => a.title.localeCompare(b.title)); break
+      default: break // newest = API order
+    }
+    return list
+  }, [products, filterCondition, filterBrand, filterColor, priceMin, priceMax, sortBy])
 
   if (!endpoint) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center text-gray-500 transition-colors">
-        Categoria non trovata.
-      </div>
-    )
+    return <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center text-gray-500">Categoria non trovata.</div>
   }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
 
       {/* Page header */}
-      <div className="relative bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-4 sm:px-6 lg:px-8 py-10 transition-colors">
+      <div className="relative bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-4 sm:px-6 lg:px-8 py-8 transition-colors">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-0 left-0 w-64 h-64 bg-indigo-400/5 dark:bg-indigo-600/10 rounded-full blur-3xl" />
         </div>
-        <div className="relative max-w-7xl mx-auto">
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white transition-colors">{categoryLabels[category]}</h1>
-          <p className="mt-1 text-gray-500 dark:text-gray-400 text-sm transition-colors">
-            {loading ? '...' : `${filtered.length} prodotti disponibili`}
-          </p>
-
-          {/* Filtro condizione */}
-          <div className="mt-5 flex flex-wrap gap-2">
-            {conditions.map((c) => {
-              const active = selectedCondition === c.value
-              const badge = c.value ? conditionColors[c.value] : null
-              return (
-                <button
-                  key={c.label}
-                  onClick={() => setSelectedCondition(c.value)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all duration-150 ${
-                    active
-                      ? c.value
-                        ? conditionColors[c.value]
-                        : 'bg-indigo-600 text-white border-indigo-600'
-                      : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-500/50'
-                  }`}
-                >
-                  {c.label}
-                </button>
-              )
-            })}
+        <div className="relative max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-black text-gray-900 dark:text-white">{categoryLabels[category]}</h1>
+            <p className="mt-1 text-gray-500 dark:text-gray-400 text-sm">
+              {loading ? '...' : `${filtered.length} prodotti`}
+            </p>
           </div>
+          <button
+            onClick={() => setFiltersOpen(o => !o)}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-indigo-300 dark:hover:border-indigo-500/50 transition-colors lg:hidden"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+              <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+            </svg>
+            Filtri
+            {activeFiltersCount > 0 && (
+              <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-xs flex items-center justify-center font-bold">{activeFiltersCount}</span>
+            )}
+          </button>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex gap-8">
 
-        {/* Skeleton */}
-        {loading && (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="animate-pulse bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
-                <div className="h-52 bg-gray-200 dark:bg-gray-700" />
-                <div className="p-4 space-y-2">
-                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
-                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
-                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mt-3" />
+          {/* Sidebar filtri */}
+          <aside className={`shrink-0 w-64 space-y-5 ${filtersOpen ? 'block' : 'hidden'} lg:block`}>
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5 space-y-5 transition-colors">
+
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-bold text-gray-900 dark:text-white">Filtri</h2>
+                {activeFiltersCount > 0 && (
+                  <button onClick={resetFilters} className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
+                    Reimposta
+                  </button>
+                )}
+              </div>
+
+              {/* Ordina per */}
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Ordina per</label>
+                <div className="relative">
+                  <select value={sortBy} onChange={e => setSortBy(e.target.value)} className={selectClass}>
+                    <option value="newest">Più recenti</option>
+                    <option value="price_asc">Prezzo: crescente</option>
+                    <option value="price_desc">Prezzo: decrescente</option>
+                    <option value="name_asc">Nome A–Z</option>
+                  </select>
+                  <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
               </div>
-            ))}
+
+              {/* Condizione */}
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Condizione</label>
+                <div className="relative">
+                  <select value={filterCondition} onChange={e => setFilterCondition(e.target.value)} className={selectClass}>
+                    <option value="">Tutte</option>
+                    <option value="nuovo">Nuovo</option>
+                    <option value="usato">Usato</option>
+                    <option value="ricondizionato">Ricondizionato</option>
+                  </select>
+                  <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+
+              {/* Brand */}
+              {brands.length > 0 && (
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Brand</label>
+                  <div className="relative">
+                    <select value={filterBrand} onChange={e => setFilterBrand(e.target.value)} className={selectClass}>
+                      <option value="">Tutti</option>
+                      {brands.map(b => <option key={b} value={b}>{b}</option>)}
+                    </select>
+                    <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="6 9 12 15 18 9"/></svg>
+                  </div>
+                </div>
+              )}
+
+              {/* Colore */}
+              {colors.length > 0 && (
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Colore</label>
+                  <div className="relative">
+                    <select value={filterColor} onChange={e => setFilterColor(e.target.value)} className={selectClass}>
+                      <option value="">Tutti</option>
+                      {colors.map(c => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                    <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="6 9 12 15 18 9"/></svg>
+                  </div>
+                </div>
+              )}
+
+              {/* Prezzo */}
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Prezzo (€)</label>
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="number" min="0" placeholder="Min"
+                    value={priceMin} onChange={e => setPriceMin(e.target.value)}
+                    className="w-full text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 text-gray-700 dark:text-gray-300 focus:outline-none focus:border-indigo-400 dark:focus:border-indigo-500 transition-colors"
+                  />
+                  <span className="text-gray-400 shrink-0">—</span>
+                  <input
+                    type="number" min="0" placeholder="Max"
+                    value={priceMax} onChange={e => setPriceMax(e.target.value)}
+                    className="w-full text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 text-gray-700 dark:text-gray-300 focus:outline-none focus:border-indigo-400 dark:focus:border-indigo-500 transition-colors"
+                  />
+                </div>
+              </div>
+
+            </div>
+          </aside>
+
+          {/* Prodotti */}
+          <div className="flex-1 min-w-0">
+
+            {loading && (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="animate-pulse bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
+                    <div className="h-52 bg-gray-200 dark:bg-gray-700" />
+                    <div className="p-4 space-y-2">
+                      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
+                      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
+                      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mt-3" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {error && <div className="text-center py-20 text-red-500 dark:text-red-400">{error}</div>}
+
+            {!loading && !error && filtered.length === 0 && (
+              <div className="text-center py-20">
+                <p className="text-gray-500 dark:text-gray-400 text-sm">Nessun prodotto trovato con i filtri selezionati.</p>
+                <button onClick={resetFilters} className="mt-4 text-sm text-indigo-600 dark:text-indigo-400 hover:underline">Reimposta filtri</button>
+              </div>
+            )}
+
+            {!loading && !error && filtered.length > 0 && (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                {filtered.map((product) => {
+                  const conditionKey = product.condition?.toLowerCase()
+                  const badgeClass = conditionColors[conditionKey] || 'bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-700/50 dark:text-gray-400 dark:border-gray-600'
+                  return <ProductCard key={product.url} product={product} badgeClass={badgeClass} category={category} />
+                })}
+              </div>
+            )}
           </div>
-        )}
 
-        {error && (
-          <div className="text-center py-20 text-red-500 dark:text-red-400">{error}</div>
-        )}
-
-        {!loading && !error && filtered.length === 0 && (
-          <div className="text-center py-20 text-gray-500 dark:text-gray-400">Nessun prodotto disponibile.</div>
-        )}
-
-        {!loading && !error && filtered.length > 0 && (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {filtered.map((product) => {
-              const conditionKey = product.condition?.toLowerCase()
-              const badgeClass = conditionColors[conditionKey] || 'bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-700/50 dark:text-gray-400 dark:border-gray-600'
-              return <ProductCard key={product.url} product={product} badgeClass={badgeClass} category={category} />
-            })}
-          </div>
-        )}
+        </div>
       </div>
 
       {category === 'telefoni' && <PremiumPhone />}

@@ -51,11 +51,24 @@ class PhoneAdmin(ProductAdminBase):
     autocomplete_fields = ['brand']
     ordering = ('-date',)
     inlines = [PhoneImageInline]
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'brand', 'img', 'short_description', 'description', 'condition', 'status', 'price', 'color', 'date')
+        }),
+        ('Specifiche tecniche', {
+            'fields': ('schermo', 'memoria', 'ram', 'processore', 'batteria', 'sim', 'fotocamera_posteriore', 'fotocamera_frontale'),
+            'classes': ('collapse',),
+        }),
+        ('Informazioni aggiuntive', {
+            'fields': ('info_aggiuntive',),
+            'classes': ('collapse',),
+        }),
+    )
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         form.base_fields['description'].widget = TinyMCE()
-        form.base_fields['specifiche'].widget = TinyMCE()
+        form.base_fields['info_aggiuntive'].widget = TinyMCE()
         return form
 
 
@@ -119,9 +132,10 @@ class BrandAdmin(admin.ModelAdmin):
 
 @admin.register(Operatore)
 class OperatoreAdmin(admin.ModelAdmin):
-    list_display = ('logo_preview', 'nome', 'descrizione', 'colore')
+    list_display = ('logo_preview', 'nome', 'descrizione', 'colore', 'offerta_mese')
+    list_editable = ('offerta_mese',)
     search_fields = ('nome',)
-    fields = ('nome', 'descrizione', 'info', 'img', 'colore')
+    fields = ('nome', 'descrizione', 'info', 'img', 'colore', 'offerta_mese')
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)

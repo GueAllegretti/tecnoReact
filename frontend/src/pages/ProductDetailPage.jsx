@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import Personalizzazione from '../components/personalizzazione'
+import { Link } from 'react-router-dom'
+import { API_URL } from '../config'
 
 const categoryMap = {
   telefoni: 'phone',
@@ -17,8 +18,8 @@ const conditionColors = {
 
 const toUrl = (img) => {
   if (!img) return null
-  try { return `http://localhost:8000${new URL(img).pathname}` }
-  catch { return `http://localhost:8000/media/${img}` }
+  try { return `${API_URL}${new URL(img).pathname}` }
+  catch { return `${API_URL}/media/${img}` }
 }
 
 const ProductDetailPage = () => {
@@ -35,7 +36,7 @@ const ProductDetailPage = () => {
   useEffect(() => {
     if (!endpoint) return
     setLoading(true)
-    fetch(`http://localhost:8000/${endpoint}/${id}/`)
+    fetch(`${API_URL}/${endpoint}/${id}/`)
       .then(res => { if (!res.ok) throw new Error('Prodotto non trovato'); return res.json() })
       .then(data => { setProduct(data); setLoading(false) })
       .catch(err => { setError(err.message); setLoading(false) })
@@ -186,59 +187,130 @@ const ProductDetailPage = () => {
         </div>
 
         {/* Tab descrizione / specifiche — full width */}
-        {(product.description || product.specifiche) && (
-          <div className="mt-10 border-t border-gray-200 dark:border-gray-700 pt-8">
-            <div className="flex gap-3 mb-8">
-              {product.description && (
-                <button
-                  onClick={() => setActiveTab('descrizione')}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border text-sm font-semibold transition-all ${
-                    activeTab === 'descrizione'
-                      ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10'
-                      : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 bg-transparent hover:border-gray-300 dark:hover:border-gray-600'
-                  }`}
-                >
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
-                  </svg>
-                  Descrizione
-                </button>
+        {(() => {
+          const phoneSpecFields = [
+            { label: 'Dimensioni schermo', key: 'schermo' },
+            { label: 'Memoria', key: 'memoria' },
+            { label: 'RAM', key: 'ram' },
+            { label: 'Processore', key: 'processore' },
+            { label: 'Batteria', key: 'batteria' },
+            { label: 'SIM', key: 'sim' },
+            { label: 'Fotocamera posteriore', key: 'fotocamera_posteriore' },
+            { label: 'Fotocamera frontale', key: 'fotocamera_frontale' },
+          ]
+          const hasPhoneSpecs = category === 'telefoni' && phoneSpecFields.some(f => product[f.key])
+          const hasSpecs = hasPhoneSpecs || product.specifiche
+          const hasInfoAggiuntive = category === 'telefoni' && !!product.info_aggiuntive
+          if (!product.description && !hasSpecs && !hasInfoAggiuntive) return null
+          return (
+            <div className="mt-10 border-t border-gray-200 dark:border-gray-700 pt-8">
+              <div className="flex gap-3 mb-8">
+                {product.description && (
+                  <button
+                    onClick={() => setActiveTab('descrizione')}
+                    className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border text-sm font-semibold transition-all ${
+                      activeTab === 'descrizione'
+                        ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10'
+                        : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 bg-transparent hover:border-gray-300 dark:hover:border-gray-600'
+                    }`}
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    Descrizione
+                  </button>
+                )}
+                {hasSpecs && (
+                  <button
+                    onClick={() => setActiveTab('specifiche')}
+                    className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border text-sm font-semibold transition-all ${
+                      activeTab === 'specifiche'
+                        ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10'
+                        : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 bg-transparent hover:border-gray-300 dark:hover:border-gray-600'
+                    }`}
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                    </svg>
+                    Specifiche
+                  </button>
+                )}
+                {hasInfoAggiuntive && (
+                  <button
+                    onClick={() => setActiveTab('info')}
+                    className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border text-sm font-semibold transition-all ${
+                      activeTab === 'info'
+                        ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10'
+                        : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 bg-transparent hover:border-gray-300 dark:hover:border-gray-600'
+                    }`}
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    Info aggiuntive
+                  </button>
+                )}
+              </div>
+
+              {activeTab === 'descrizione' && product.description && (
+                <div
+                  className="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: product.description }}
+                />
               )}
-              {product.specifiche && (
-                <button
-                  onClick={() => setActiveTab('specifiche')}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border text-sm font-semibold transition-all ${
-                    activeTab === 'specifiche'
-                      ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10'
-                      : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 bg-transparent hover:border-gray-300 dark:hover:border-gray-600'
-                  }`}
-                >
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
-                  </svg>
-                  Specifiche
-                </button>
+
+              {activeTab === 'specifiche' && hasPhoneSpecs && (
+                <div className="overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700">
+                  <table className="w-full text-sm">
+                    <tbody>
+                      {phoneSpecFields.filter(f => product[f.key]).map((f, i) => (
+                        <tr key={f.key} className={i % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800/50'}>
+                          <td className="px-5 py-3 font-semibold text-gray-600 dark:text-gray-400 w-48 border-r border-gray-200 dark:border-gray-700">{f.label}</td>
+                          <td className="px-5 py-3 text-gray-900 dark:text-white">{product[f.key]}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {activeTab === 'specifiche' && !hasPhoneSpecs && product.specifiche && (
+                <div
+                  className="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: product.specifiche }}
+                />
+              )}
+
+              {activeTab === 'info' && hasInfoAggiuntive && (
+                <div
+                  className="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: product.info_aggiuntive }}
+                />
               )}
             </div>
-
-            {activeTab === 'descrizione' && product.description && (
-              <div
-                className="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: product.description }}
-              />
-            )}
-            {activeTab === 'specifiche' && product.specifiche && (
-              <div
-                className="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: product.specifiche }}
-              />
-            )}
-          </div>
-        )}
+          )
+        })()}
 
       </div>
 
-      <Personalizzazione />
+      {/* Banner personalizzazione */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-indigo-200 dark:border-indigo-500/30 bg-indigo-50 dark:bg-indigo-500/10 px-6 py-5">
+          <div className="flex items-center gap-4">
+            <span className="text-2xl shrink-0">🎨</span>
+            <div>
+              <p className="font-bold text-indigo-900 dark:text-indigo-300 text-sm">Vuoi personalizzarlo?</p>
+              <p className="text-xs text-indigo-700 dark:text-indigo-400 mt-0.5">Cover, pellicole e skin applicate in negozio dal nostro staff.</p>
+            </div>
+          </div>
+          <Link
+            to="/personalizzazione"
+            className="shrink-0 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition-colors"
+          >
+            Scopri il servizio
+          </Link>
+        </div>
+      </div>
 
     </div>
   )

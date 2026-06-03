@@ -37,7 +37,7 @@ const DoveSiamo = () => {
           {/* Mappa */}
           <div className="lg:col-span-2 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm">
             <iframe
-              title="Tecnopoint su Google Maps"
+              title="Technopoint su Google Maps"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2972.1!2d12.5097!3d41.8384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13258a7b5e7c2a2d%3A0x0!2sPiazzale+dei+Caduti+della+Montagnola%2C+66%2C+00142+Roma+RM!5e0!3m2!1sit!2sit!4v1700000000000!5m2!1sit!2sit&q=P.le+dei+Caduti+della+Montagnola,+66/67,+00142+Roma+RM"
               width="100%"
               height="680"

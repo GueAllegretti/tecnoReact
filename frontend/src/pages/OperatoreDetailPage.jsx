@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
+import { API_URL } from '../config'
 
 const OperatoreDetailPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
 
   const [operatore, setOperatore] = useState(null)
+  const [tutti, setTutti] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetch(`http://localhost:8000/operatori/${id}/`)
-      .then(res => { if (!res.ok) throw new Error('Operatore non trovato'); return res.json() })
-      .then(data => { setOperatore(data); setLoading(false) })
+    Promise.all([
+      fetch(`${API_URL}/operatori/${id}/`).then(res => { if (!res.ok) throw new Error('Operatore non trovato'); return res.json() }),
+      fetch(`${API_URL}/operatori/`).then(res => res.json()),
+    ])
+      .then(([op, all]) => { setOperatore(op); setTutti(all); setLoading(false) })
       .catch(err => { setError(err.message); setLoading(false) })
   }, [id])
 
@@ -104,6 +108,44 @@ const OperatoreDetailPage = () => {
         </div>
 
       </div>
+
+      {/* Carosello altri operatori */}
+      {tutti.length > 1 && (
+        <div className="border-t border-gray-200 dark:border-gray-800 mt-4 px-4 sm:px-6 lg:px-8 py-10">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-5 uppercase tracking-wider">
+              Altri operatori
+            </h2>
+            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+              {tutti.filter(op => String(op.id) !== String(id)).map(op => (
+                <Link
+                  key={op.id}
+                  to={`/operatori/${op.id}`}
+                  className="flex-none flex flex-col items-center gap-2 w-24 p-3 rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-indigo-400 dark:hover:border-indigo-500 hover:-translate-y-1 hover:shadow-lg transition-all duration-200"
+                >
+                  {op.img ? (
+                    <img
+                      src={`${API_URL}${new URL(op.img).pathname}`}
+                      alt={op.nome}
+                      className="w-12 h-12 object-contain rounded-xl"
+                      onError={(e) => { e.target.style.display = 'none' }}
+                    />
+                  ) : (
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-sm"
+                      style={{ backgroundColor: (op.colore || '#6366f1') + '20', color: op.colore || '#6366f1' }}
+                    >
+                      {op.nome.substring(0, 2).toUpperCase()}
+                    </div>
+                  )}
+                  <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 text-center leading-tight line-clamp-2">{op.nome}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }

@@ -149,12 +149,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Tecnopoint Admin",
-    "site_header": "Tecnopoint",
-    "site_brand": "Tecnopoint",
+    "site_title": "Technopoint Admin",
+    "site_header": "Technopoint",
+    "site_brand": "Technopoint",
     "site_icon": "favicon.ico",
     "welcome_sign": "Benvenuto nel pannello di gestione",
-    "copyright": "Tecnopoint",
+    "copyright": "Technopoint",
     "show_sidebar": True,
     "navigation_expanded": True,
     "icons": {

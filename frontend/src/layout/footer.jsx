@@ -17,7 +17,7 @@ const Footer = () => {
 
           {/* Brand */}
           <div>
-            <span className="text-xl font-black gradient-text tracking-tight">Tecnopoint</span>
+            <span className="text-xl font-black gradient-text tracking-tight">Technopoint</span>
             <p className="mt-3 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
               Il tuo punto di riferimento per smartphone, tablet, PC e accessori a Roma.
               Nuovo, usato e ricondizionato con garanzia.
@@ -64,7 +64,7 @@ const Footer = () => {
 
         <div className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-gray-400 dark:text-gray-500">
-            © {year} Tecnopoint. Tutti i diritti riservati.
+            © {year} Technopoint. Tutti i diritti riservati.
           </p>
           <p className="text-xs text-gray-400 dark:text-gray-500">
             Powered ❤️ GA
