@@ -1,0 +1,456 @@
+[
+{
+  "model": "product.phone",
+  "pk": 1,
+  "fields": {
+    "title": "Samsung Galaxy A13 Lte Black 4/128gb Smartphone 6.6\"",
+    "brand": 1,
+    "short_description": "Smartphone 6.6\" Memoria 128 GB RAM: 4 GB Processore: MediaTek Helio Helio G80 Doppia SIM Batteria 5000mAh Fotocamera Posteriore da 50 MP Fotocamera Frontale da 5 MP",
+    "description": "<p>Smartphone 6.6\" Memoria 128 GB RAM: 4 GB Processore: MediaTek Helio Helio G80 Doppia SIM Batteria 5000mAh Fotocamera Posteriore da 50 MP Fotocamera Frontale da 5 MP</p>",
+    "schermo": "6,6 Pollici",
+    "memoria": "128 GB",
+    "ram": "4000",
+    "processore": "4000",
+    "batteria": "4000",
+    "sim": "Dual SIM",
+    "fotocamera_posteriore": "Quadrupla fotocamera posteriore con AF, HDR automatico, FlashLED: Grandangolare 50 MP, F1.8 Ultra Gr",
+    "fotocamera_frontale": "Fotocamera anteriore con Selfie Flash: 8 MP, F2.2",
+    "info_aggiuntive": "<p>Altro ....................</p>",
+    "condition": "NUOVO",
+    "status": "VENDUTO",
+    "price": 170,
+    "color": "BLACK",
+    "img": "uploads/7216719482bb03f1b16c96a7f10227f9-63eb5709c08e89.34016596-SAM07178Y-0.jpg",
+    "date": "2023-03-12T20:57:46.843Z"
+  }
+},
+{
+  "model": "product.phone",
+  "pk": 2,
+  "fields": {
+    "title": "Iphone 15",
+    "brand": 2,
+    "short_description": "",
+    "description": "test map",
+    "schermo": "",
+    "memoria": "",
+    "ram": "",
+    "processore": "",
+    "batteria": "",
+    "sim": "",
+    "fotocamera_posteriore": "",
+    "fotocamera_frontale": "",
+    "info_aggiuntive": "",
+    "condition": "NUOVO",
+    "status": "",
+    "price": 1444,
+    "color": "WHITE",
+    "img": "uploads/1.jpg",
+    "date": "2023-03-12T20:57:46.843Z"
+  }
+},
+{
+  "model": "product.phone",
+  "pk": 3,
+  "fields": {
+    "title": "Iphone",
+    "brand": 2,
+    "short_description": "",
+    "description": "test",
+    "schermo": "",
+    "memoria": "",
+    "ram": "",
+    "processore": "",
+    "batteria": "",
+    "sim": "",
+    "fotocamera_posteriore": "",
+    "fotocamera_frontale": "",
+    "info_aggiuntive": "",
+    "condition": "RICONDIZIONATO",
+    "status": "",
+    "price": 180,
+    "color": "WHITE",
+    "img": "uploads/1cc01f684f7ccb260c8b740edda4132f-631a00f579d7c7.38152725-222002807_7rYvRpO.jpg",
+    "date": "2023-03-12T20:57:46.843Z"
+  }
+},
+{
+  "model": "product.phone",
+  "pk": 4,
+  "fields": {
+    "title": "Test",
+    "brand": 3,
+    "short_description": "",
+    "description": "test",
+    "schermo": "",
+    "memoria": "",
+    "ram": "",
+    "processore": "",
+    "batteria": "",
+    "sim": "",
+    "fotocamera_posteriore": "",
+    "fotocamera_frontale": "",
+    "info_aggiuntive": "",
+    "condition": "USATO",
+    "status": "",
+    "price": 400,
+    "color": "BLACK",
+    "img": "uploads/1cc01f684f7ccb260c8b740edda4132f-631a00f579d7c7.38152725-222002807.jpg",
+    "date": "2023-03-12T20:57:46.843Z"
+  }
+},
+{
+  "model": "product.phone",
+  "pk": 5,
+  "fields": {
+    "title": "test",
+    "brand": 5,
+    "short_description": "",
+    "description": "test",
+    "schermo": "",
+    "memoria": "",
+    "ram": "",
+    "processore": "",
+    "batteria": "",
+    "sim": "",
+    "fotocamera_posteriore": "",
+    "fotocamera_frontale": "",
+    "info_aggiuntive": "",
+    "condition": "NUOVO",
+    "status": "",
+    "price": 1111,
+    "color": "BLACK",
+    "img": "uploads/1cc01f684f7ccb260c8b740edda4132f-631a00f579d7c7.38152725-222002807_0cTlido.jpg",
+    "date": "2023-03-12T21:51:06.018Z"
+  }
+},
+{
+  "model": "product.phone",
+  "pk": 7,
+  "fields": {
+    "title": "Samsung Galaxy A26 5G",
+    "brand": 1,
+    "short_description": "Smartphone con Funzioni intelligenti, Display Super AMOLED 6.7”, 6GB RAM, 128GB, Batteria 5.000 mAh, memoria espandibile, Black",
+    "description": "<ul>\r\n<li class=\"ng-tns-c3509034573-32\">Sottile. Luminoso. Elegante.<br>Dai una marcia in pi&ugrave; al tuo stile con Galaxy A26 5G. Grazie alla sua struttura sottile potrai tenerlo in mano in tutta comodit&agrave;, mentre la parte posteriore in vetro lucido e il layout essenziale della fotocamera attireranno gli sguardi di tutti. Disponibile in White, Mint e Black.</li>\r\n<li class=\"ng-tns-c3509034573-32\">Distinguiti, punta sui colori, esprimi chi sei<br>Quattro originali colori che calamitano ogni sguardo. Disponibile in diverse tonalit&agrave;, da Black a Mint fino a White: dovrai solo scegliere quella pi&ugrave; adatta al tuo stile.</li>\r\n<li class=\"ng-tns-c3509034573-32\">Progettato per durare<br>Svolgi le tue attivit&agrave; preferite all'aperto in tutta tranquillit&agrave;. Galaxy A26 5G &egrave; dotato della certificazione IP67 per la resistenza alla polvere e all'acqua: potrai usarlo per immortalare momenti indimenticabili durante concerti o partite, anche sotto la pioggia.</li>\r\n<li class=\"ng-tns-c3509034573-32\">Foto sempre realistiche con la fotocamera grandangolare<br>Scatta foto in alta qualit&agrave; con la fotocamera grandangolare da 50 MP, che assicura la massima stabilit&agrave; delle immagini anche in movimento.</li>\r\n<li class=\"ng-tns-c3509034573-32\">Scatta selfie semplicemente perfetti<br>Scatta ogni volta selfie perfetti da condividere. Grazie alla selfie camera da 13 MP potrai catturare ogni istante, dalle scene di vita quotidiana ai momenti pi&ugrave; memorabili.</li>\r\n<li class=\"ng-tns-c3509034573-32\">Prestazioni fluide, esperienza perfetta<br>Sia quando navighi che mentre giochi o guardi video, la CPU aggiornata assicura la massima rapidit&agrave; e fluidit&agrave;, per un divertimento assicurato.</li>\r\n<li class=\"ng-tns-c3509034573-32\">Batteria a lunga durata per guardare video tutto il giorno<br>Con una batteria di lunga durata da 5.000 mAh (valore tipico), puoi goderti fino a 17 ore di maratona cinematografica senza dover ricaricare il tuo Galaxy A26 5G.</li>\r\n<li class=\"ng-tns-c3509034573-32\">6 generazioni di aggiornamenti del sistema operativo<br>Non perderti gli ultimi aggiornamenti, con 6 generazioni di aggiornamenti del sistema operativo e 6 anni di aggiornamenti della sicurezza per mantenere il tuo Galaxy A26 5G sicuro e performante.</li>\r\n<li class=\"ng-tns-c3509034573-32\">Costruito per tenere al sicuro le tue password<br>Tieni al sicuro i tuoi dati personali con Samsung Knox Vault, certificato EAL5+, per una protezione avanzata.</li>\r\n<li class=\"ng-tns-c3509034573-32\">Cerchia, trova<br>Per effettuare una ricerca, basta cerchiare. &Egrave; sufficiente cerchiare il testo o l'oggetto desiderato per ottenere i risultati della ricerca senza alcuno sforzo.</li>\r\n<li class=\"ng-tns-c3509034573-32\">Crea filtri personalizzati<br>Scopri nuovi modi per personalizzare i tuoi scatti con Galaxy A26 5G. Grazie ai filtri che analizzano le foto della tua galleria per creare effetti personalizzati, potrai rendere unico e irripetibile ogni scatto.</li>\r\n<li class=\"ng-tns-c3509034573-32\">Rimuovi elementi indesiderati<br>Perfeziona le tue foto con Galaxy A26 5G. La funzione Suggerimenti di modifica offre consigli utili per migliorare ogni foto, mentre la funzionalit&agrave; avanzata Gomma oggetto individua, evidenzia e rimuove gli elementi indesiderati, per aiutarti a creare un vero e proprio capolavoro.</li>\r\n<li class=\"ng-tns-c3509034573-32\">La nuovissima interfaccia utente One UI 7<br>Galaxy A26 5G &egrave; facile da usare grazie al nuovo look intuitivo e all'usabilit&agrave; migliorata del'interfaccia One UI 7.</li>\r\n<li class=\"ng-tns-c3509034573-32\">Condividi i file in un attimo<br>Usa Quick Share per inviare facilmente file tra dispositivi Galaxy e non solo. Condividi anche con dispositivi iOS e PC</li>\r\n<li class=\"ng-tns-c3509034573-32\">Passa facilmente da iOS a Galaxy<br>Il passaggio da iOS &egrave; facilissimo! Grazie a Smart Switch puoi trasferire foto, video, contatti e app senza alcuno sforzo</li>\r\n</ul>",
+    "schermo": "",
+    "memoria": "",
+    "ram": "",
+    "processore": "",
+    "batteria": "",
+    "sim": "",
+    "fotocamera_posteriore": "",
+    "fotocamera_frontale": "",
+    "info_aggiuntive": "",
+    "condition": "NUOVO",
+    "status": "PRENOTATO",
+    "price": 372,
+    "color": "BLACK",
+    "img": "uploads/61UWbK4Y-wL.jpg",
+    "date": "2023-03-12T21:51:40.902Z"
+  }
+},
+{
+  "model": "product.tablet",
+  "pk": 1,
+  "fields": {
+    "title": "Test",
+    "brand": 2,
+    "short_description": "",
+    "description": "test",
+    "specifiche": "",
+    "condition": "NUOVO",
+    "status": "",
+    "price": 1,
+    "color": "BLACK",
+    "img": "uploads/edcdfd0440efba4cd82d8bc553652ec9-img-ct1-5fb8ddc055dbd5.14286838450.jpg",
+    "date": "2023-03-12T20:57:46.846Z"
+  }
+},
+{
+  "model": "product.tablet",
+  "pk": 2,
+  "fields": {
+    "title": "test 2",
+    "brand": 1,
+    "short_description": "",
+    "description": "test",
+    "specifiche": "",
+    "condition": "NUOVO",
+    "status": "",
+    "price": 1500,
+    "color": "BLACK",
+    "img": "uploads/56acb771d8a7bb41db2848bcb67c84ad-63ff8317ad1615.04243585-FB_Banner_singolo_1200x628px.jpg",
+    "date": "2023-03-12T21:24:12.098Z"
+  }
+},
+{
+  "model": "product.tablet",
+  "pk": 3,
+  "fields": {
+    "title": "test 2",
+    "brand": 1,
+    "short_description": "",
+    "description": "test",
+    "specifiche": "",
+    "condition": "NUOVO",
+    "status": "",
+    "price": 1500,
+    "color": "BLACK",
+    "img": "uploads/56acb771d8a7bb41db2848bcb67c84ad-63ff8317ad1615.04243585-FB_Banner_singolo_1200x_sJ39mI1.jpg",
+    "date": "2023-03-12T21:24:18.515Z"
+  }
+},
+{
+  "model": "product.tablet",
+  "pk": 4,
+  "fields": {
+    "title": "test",
+    "brand": 6,
+    "short_description": "",
+    "description": "taeettt",
+    "specifiche": "",
+    "condition": "RICONDIZIONATO",
+    "status": "",
+    "price": 1200,
+    "color": "WHITE",
+    "img": "uploads/edcdfd0440efba4cd82d8bc553652ec9-img-ct1-5fb8ddc055dbd5.14286838450_LehiB0o.jpg",
+    "date": "2023-03-12T21:31:40.659Z"
+  }
+},
+{
+  "model": "product.tablet",
+  "pk": 5,
+  "fields": {
+    "title": "test2",
+    "brand": 2,
+    "short_description": "",
+    "description": "test",
+    "specifiche": "",
+    "condition": "USATO",
+    "status": "",
+    "price": 1220,
+    "color": "BLACK",
+    "img": "uploads/4.jpg",
+    "date": "2023-03-13T15:43:40.355Z"
+  }
+},
+{
+  "model": "product.brand",
+  "pk": 1,
+  "fields": {
+    "title": "Samsung",
+    "img": "brand/samsung-logo-samsung-icon-free-free-vector.jpg"
+  }
+},
+{
+  "model": "product.brand",
+  "pk": 2,
+  "fields": {
+    "title": "Apple",
+    "img": "brand/apple-1.webp"
+  }
+},
+{
+  "model": "product.brand",
+  "pk": 3,
+  "fields": {
+    "title": "Oppo",
+    "img": "brand/oppo-logo-rounded-oppo-logo-free-png.webp"
+  }
+},
+{
+  "model": "product.brand",
+  "pk": 4,
+  "fields": {
+    "title": "Huawei",
+    "img": "brand/20190713-huawei-logo-vettore-huawei-icona-gratuito-vettore-gratuito-vettoriale.jpg"
+  }
+},
+{
+  "model": "product.brand",
+  "pk": 5,
+  "fields": {
+    "title": "Redmi",
+    "img": "brand/Xiaomi_logo.svg.png"
+  }
+},
+{
+  "model": "product.brand",
+  "pk": 6,
+  "fields": {
+    "title": "Nokia",
+    "img": "brand/nokia-logo-rounded-nokia-logo-free-png.webp"
+  }
+},
+{
+  "model": "product.brand",
+  "pk": 7,
+  "fields": {
+    "title": "LG",
+    "img": "brand/m3-1-300x300.jpg"
+  }
+},
+{
+  "model": "product.operatore",
+  "pk": 1,
+  "fields": {
+    "nome": "TIM",
+    "descrizione": "TIM WiFi Casa",
+    "info": "<div class=\"to-herobanner--split__body\">\r\n<p class=\"ta-paragraph ta-paragraph--body\">Attiva una nuova linea Internet a casa, da oggi hai il nuovo WiFi di TIM: Fibra&nbsp;ultraveloce, Modem TIM di ultima generazione e chiamate illimitate a partire da 24,90&euro;.</p>\r\n</div>",
+    "img": "operatori/glossy-tim-mobile-logo-rounded-square-app-icon-free-png.webp",
+    "colore": "#0033A0",
+    "offerta_mese": true
+  }
+},
+{
+  "model": "product.operatore",
+  "pk": 2,
+  "fields": {
+    "nome": "Vodafone",
+    "descrizione": "Connettività mobile",
+    "info": "",
+    "img": "operatori/vodafone.png",
+    "colore": "#E60000",
+    "offerta_mese": false
+  }
+},
+{
+  "model": "product.operatore",
+  "pk": 3,
+  "fields": {
+    "nome": "WindTre",
+    "descrizione": "Telefonia e internet",
+    "info": "",
+    "img": "operatori/windtre_logotale.png",
+    "colore": "#FF6600",
+    "offerta_mese": false
+  }
+},
+{
+  "model": "product.operatore",
+  "pk": 4,
+  "fields": {
+    "nome": "Iliad",
+    "descrizione": "Tariffe trasparenti",
+    "info": "",
+    "img": "operatori/blank-logo.png",
+    "colore": "#CC0000",
+    "offerta_mese": false
+  }
+},
+{
+  "model": "product.operatore",
+  "pk": 5,
+  "fields": {
+    "nome": "Very Mobile",
+    "descrizione": "Low cost senza vincoli",
+    "info": "",
+    "img": "operatori/unnamed_1.png",
+    "colore": "#6600CC",
+    "offerta_mese": false
+  }
+},
+{
+  "model": "product.operatore",
+  "pk": 6,
+  "fields": {
+    "nome": "ho.",
+    "descrizione": "Operatore digitale",
+    "info": "",
+    "img": "operatori/ho-mobile-logo.webp",
+    "colore": "#FFD700",
+    "offerta_mese": false
+  }
+},
+{
+  "model": "product.operatore",
+  "pk": 7,
+  "fields": {
+    "nome": "Fastweb",
+    "descrizione": "Fibra e mobile",
+    "info": "",
+    "img": "operatori/logo.png",
+    "colore": "#00A651",
+    "offerta_mese": false
+  }
+},
+{
+  "model": "product.operatore",
+  "pk": 8,
+  "fields": {
+    "nome": "1Mobile",
+    "descrizione": "Offerte flessibili",
+    "info": "",
+    "img": "operatori/unnamed.png",
+    "colore": "#E84393",
+    "offerta_mese": false
+  }
+},
+{
+  "model": "product.accessori",
+  "pk": 1,
+  "fields": {
+    "title": "Orologio",
+    "brand": 2,
+    "short_description": "",
+    "description": "test testtest",
+    "specifiche": "",
+    "condition": "NUOVO",
+    "status": "",
+    "price": 340,
+    "color": "BLACK",
+    "img": "uploads/daniel-korpai-hbTKIbuMmBI-unsplash.jpg",
+    "date": "2023-03-20T21:57:42.650Z"
+  }
+},
+{
+  "model": "product.accessori",
+  "pk": 2,
+  "fields": {
+    "title": "Orologio",
+    "brand": 2,
+    "short_description": "",
+    "description": "test testtest",
+    "specifiche": "",
+    "condition": "NUOVO",
+    "status": "",
+    "price": 340,
+    "color": "BLACK",
+    "img": "uploads/daniel-korpai-hbTKIbuMmBI-unsplash_YyahVV9.jpg",
+    "date": "2023-03-20T21:58:41.700Z"
+  }
+},
+{
+  "model": "product.accessori",
+  "pk": 3,
+  "fields": {
+    "title": "Orologio",
+    "brand": 2,
+    "short_description": "",
+    "description": "test testtest",
+    "specifiche": "",
+    "condition": "NUOVO",
+    "status": "",
+    "price": 555,
+    "color": "BLACK",
+    "img": "uploads/daniel-korpai-QhF3YGsDrYk-unsplash.jpg",
+    "date": "2023-03-20T21:58:54.424Z"
+  }
+},
+{
+  "model": "product.phoneimage",
+  "pk": 1,
+  "fields": {
+    "phone": 7,
+    "img": "uploads/made-in-china_fAvaWbd.webp"
+  }
+},
+{
+  "model": "product.phoneimage",
+  "pk": 2,
+  "fields": {
+    "phone": 7,
+    "img": "uploads/made-in-china_GYIT4fE.webp"
+  }
+}
+]
