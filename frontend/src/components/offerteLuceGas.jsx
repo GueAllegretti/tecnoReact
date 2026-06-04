@@ -49,7 +49,7 @@ const offers = [
 ]
 
 const OfferteLuceGas = () => (
-  <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+  <section id="offerte-utility" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
     <div className="text-center mb-10">
       <span className="inline-block mb-3 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-xs font-semibold uppercase tracking-wider">
         Tutti i servizi in un unico posto

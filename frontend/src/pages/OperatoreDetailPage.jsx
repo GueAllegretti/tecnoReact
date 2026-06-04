@@ -116,7 +116,7 @@ const OperatoreDetailPage = () => {
             <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-5 uppercase tracking-wider">
               Altri operatori
             </h2>
-            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+            <div className="flex gap-4 overflow-x-auto pb-2 pt-2 scrollbar-hide">
               {tutti.filter(op => String(op.id) !== String(id)).map(op => (
                 <Link
                   key={op.id}

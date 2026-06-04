@@ -9,13 +9,16 @@ import OperatoreDetailPage from './pages/OperatoreDetailPage';
 import BrandProductsPage from './pages/BrandProductsPage';
 import ComeFunzionaPage from './pages/ComeFunzionaPage';
 import PersonalizzazionePage from './pages/PersonalizzazionePage';
+import OffertePage from './pages/OffertePage';
 import Footer from './layout/footer';
 import CookieBanner from './components/CookieBanner';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen">
+        <ScrollToTop />
         <Nav />
         <main>
           <Routes>
@@ -27,6 +30,7 @@ function App() {
             <Route path="/brand/:id" element={<BrandProductsPage />} />
             <Route path="/come-funziona" element={<ComeFunzionaPage />} />
             <Route path="/personalizzazione" element={<PersonalizzazionePage />} />
+            <Route path="/offerte" element={<OffertePage />} />
           </Routes>
         </main>
         <Footer />

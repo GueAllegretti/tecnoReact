@@ -16,7 +16,8 @@ const Nav = () => {
   const { dark, toggle } = useTheme()
 
   const links = [
-    { label: 'Dove siamo', to: '/dove-siamo' }
+    { label: 'Luce, Gas & Fibra', to: '/offerte' },
+    { label: 'Dove siamo', to: '/dove-siamo' },
   ]
 
   return (

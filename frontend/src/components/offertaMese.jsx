@@ -68,6 +68,13 @@ const OffertaMese = () => {
             {offerta.descrizione}
           </p>
 
+          {offerta.info && (
+            <div
+              className="text-sm text-gray-500 dark:text-gray-400 max-w-lg leading-relaxed prose prose-sm dark:prose-invert"
+              dangerouslySetInnerHTML={{ __html: offerta.info }}
+            />
+          )}
+
           <div className="mt-2 flex flex-col sm:flex-row gap-3">
             <Link
               to={`/operatori/${offerta.id}`}
